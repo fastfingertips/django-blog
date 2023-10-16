@@ -1,20 +1,12 @@
-﻿#  Install Django and Create Project
-- download: https://www.djangoproject.com/download/
-- setup:
-	```bash
-	pip install Django
-	```
-- version control:
-	```bash
-	django-admin --version
-	```
-- creat project:
-	```bash
-	cd Desktop
-	django-admin startproject [app-name]
-	```
+﻿[Requirements](requirements.txt): `pip install -r requirements.txt`
 
-# Folder Structure Explained
+### Install Django and Create Project
+- [Download Django](https://www.djangoproject.com/download/)
+- setup: `pip install Django`
+- version control: `django-admin --version`
+- creat project: `django-admin startproject [app-name]`
+
+### Folder Structure
 - **[app-name]**
 	- **manage.py**: manage.py is a command-line utility that lets you interact with this Django project in various ways.
 	-	app-name/
@@ -23,13 +15,12 @@
 		- **urls.py**: The URL declarations for this Django project; a “table of contents” of your Django-powered site.
 		- **wsgi.py**: An entry-point for WSGI-compatible web servers to serve your project.
 
-# Run Server and Open Browser
-
 ### Run Server
 ```bash
 cd [app-name]
 python manage.py runserver
 ```
+
 ### Open Browser
 > - django default port: `8000`
 > - change port in command line: `python manage.py runserver [port]`
@@ -42,18 +33,18 @@ python manage.py runserver
 >	- list of time zones: `https://en.wikipedia.org/wiki/List_of_tz_database_time_zones`
 > - if you want to stop server in command line: `ctrl + c`
 
-# Migration
+### Migration
 - Tables are created based on the models in the app
 - migrate: `python manage.py migrate`
 
-# Create App
+### Create App
 - create app: `python manage.py startapp [app-name]`
 - add app to settings.py: `INSTALLED_APPS = [app-name]`
 - create model in models.py
 - create migration: `python manage.py makemigrations [app-name]`
 - migrate: `python manage.py migrate`
 
-# App Structure Explained
+### App Structure
 - **[app-name]**
 	- **\_\_init\_\_.py**: An empty file that tells Python that this directory should be considered a Python package.
 	- **admin.py**: You’ll register your models here so Django knows to include them in the admin interface.
@@ -64,7 +55,7 @@ python manage.py runserver
 	- **views.py**: This is where your views go.
 
 
-# Create Admin
+### Create Admin
 - create admin: `python manage.py createsuperuser`
 - username: `admin`
 - email: ``
