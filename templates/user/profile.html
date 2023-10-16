@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1 class="display-4">{{ user }}</h1>
+    <hr>
+    <table class="table table-borderless">
+        <thead>
+            <tr>
+            <th scope="col">id</th>
+            <th scope="col">username</th>
+            <th scope="col">email</th>
+            <th scope="col">date joined</th>
+            <th scope="col">last login</th>
+            <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+            <th scope="row">{{ user.id }}</th>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.date_joined }}</td>
+            <td>{{ user.last_login }}</td>
+            <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

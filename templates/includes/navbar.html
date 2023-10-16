@@ -1,0 +1,58 @@
+<header class="p-2">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <!-- Site Navigation -->
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li>
+          <a href="{% url 'index' %}" class="navbar-brand px-2">
+          Home
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'about' %}" class="navbar-brand px-2">
+          About
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'article_urls:articles' %}" class="navbar-brand px-2">
+            Articles
+          </a>
+        </li>
+      </ul>
+      <!-- Search form -->
+      <form  class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" action="{% url 'search' %}">
+        {% csrf_token %}
+        <input type="search" name="q" class="form-control" placeholder="Search..." aria-label="Search">
+      </form>
+      <!-- User Profile -->
+      <div class="text-end">
+        {% if request.user.is_authenticated %}
+          <div class="btn-group">
+            <a href="{% url 'user_urls:profile' 'me' %}" class="btn">
+              {{ request.user.username }}
+            </a>
+            <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">
+            </button>
+            <div class="dropdown">
+              <ul class="dropdown-menu">
+                <li><a href="{% url 'user_urls:profile' 'me' %}" class="dropdown-item">Profile</a></li>
+                <li><a href="{% url 'user_urls:dashboard' %}" class="dropdown-item">Dashboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <h6 class="dropdown-header">Article</h6>
+                <li><a href="{% url 'user_urls:articles' request.user.username %}" class="dropdown-item">My Articles</a></li>
+                <li><a href="{% url 'article_urls:article_add' %}" class="dropdown-item">Article Add</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <td><a href="{% url 'settings' %}" class="dropdown-item">Settings</a></td>
+                <li><a href="{% url 'user_urls:logout' %}" class="dropdown-item text-danger">Logout</a></li>   
+              </ul>
+            </div>
+          </div>
+        {% else %}
+          <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="{% url 'login' %}" class="nav-link px-2 link-light">Login</a></li>
+            <li><a href="{% url 'register' %}" class="nav-link px-2 link-light">Register</a></li>
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+</header>

@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <div class="lead">Dashboard</div>
+  <hr>
+  <div class="row">
+    <div class="col-md-6">
+<!-- Articles -->
+      <div class="lead mb-3">
+        Articles
+        <small>({{ articles|length }})</small>
+      </div>
+      {% if articles %}
+        {% for article in articles %}
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between mb-2 rounded-0">
+              <a href="{% url 'article_urls:article_detail' article.id %}" class="text-decoration-none">
+                {{ article.title }}
+              </a>
+              <div class="text-muted">
+                {{ article.content|truncatewords:10 }}
+              </div>
+              <span class="badge">
+                {{ article.created_at }}
+              </span>
+            </li>
+          </ul>
+        {% endfor %}
+      {% else %}
+        <div class="alert alert-info" role="alert">
+          <strong>Info!</strong> You have no articles.
+        </div>
+      {% endif %}
+<!-- Articles -->
+    </div>
+    <div class="col-md-6">
+<!-- Comments -->
+      <div class="lead mb-3">
+        Comments
+        <small>({{ comments|length }})</small>
+      </div>
+      {% if comments %}
+        {% for comment in comments %}
+          <ul class = "list-group">
+            <li class = "list-group-item d-flex justify-content-between mb-2 rounded-0">
+              <a href = "{% url 'article_urls:article_detail' comment.article.id %}" class = "text-decoration-none">
+                {{ comment.article.title }}
+              </a>
+              <div class = "text-muted">
+                {{ comment.comment_content|truncatewords:10 }}
+              </div>
+              <span class = "badge">
+                {{ comment.comment_date }}
+              </span>
+            </li>
+          </ul>
+        {% endfor %}
+      {% else %}
+        <div class = "alert alert-info" role = "alert">
+          <strong>Info!</strong> You have no comments.
+        </div>
+      {% endif %}
+<!-- Comments -->
+    </div>
+  </div>
+{% endblock %}

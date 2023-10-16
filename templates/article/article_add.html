@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+  {% if form %}
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+          <div class="lead">Add Article</div>
+          <hr>
+          <!-- Login form -->
+          <form method="post">
+              {% csrf_token %}
+              {{ form.media }}
+              {{ form|crispy }}
+              <button type="submit" class="btn btn-secondary">Add</button>
+          </form>
+      </div>
+    </div>
+  {% else %}
+    <div class="lead">
+      A form for article has not yet been set up.
+    </div>
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <div class="lead">Articles</div>
+  <hr>
+  {% if articles %}
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">title</th>
+        <th scope="col">content</th>
+        <th scope="col">comments</th>
+        <th scope="col">created date</th>
+        <th scope="col">author</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for article in articles %}
+          <tr class="clickable" onclick="window.location='/articles/article/{{article.id}}'">
+            <th scope="row">{{article.id}}</th>
+            <td><a href="/articles/article/{{article.id}}" class="text-decoration-none">{{article.title}}</a></td>
+            <td>{{article.content|truncatechars:100}}</td>
+            <td>{{article.comments.count}}</td>
+            <td>{{article.created_at}}</td>
+            <td><a href="/user/{{article.author.id}}" class="text-decoration-none">@{{article.author.username}}</a></td>
+          </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="alert alert-info" role="alert">
+    <strong>Info!</strong> No articles found.
+  </div>
+    {% endif %}
+{% endblock %}

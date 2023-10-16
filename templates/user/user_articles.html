@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+
+  <h1 class="display-4">Your articles</h1>
+  <div class="row mb-4">
+    <div class="col-6 text-right">
+        <a href="/articles/article/add" class="btn btn-success">New article</a>
+    </div>
+  </div>
+  <hr class="my-4">
+  <!-- new add -->
+
+  {% if articles %}
+  <table class="table table-hover table-borderless">
+      <thead>
+          <tr>
+              <th scope="col">id</th>
+              <th scope="col">title</th>
+              <th scope="col">created date</th>
+              <th scope="col" class="text-center" >visibility</th> 
+              <th scope="col" style="width: 8%"></th>
+              <th scope="col" style="width: 8%"></th>
+            <th scope="col" style="width: 8%"></th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for article in articles %}
+          <tr>
+              <th scope="row">{{article.id}}</th>
+              <td><a href="/articles/article/{{article.id}}" class="text-decoration-none text-primary">{{article.title}}</a></td>
+              <td class="text-muted">{{article.created_at}}</td>
+              <td class="text-center">
+                  {% if article.visibility %}
+                      <a href="/articles/article/{{article.id}}/visibility" class="text-decoration-none text-success">
+                          <span>Public</span>
+                      </a>        
+                  {% else %}
+                      <a href="/articles/article/{{article.id}}/visibility" class="text-decoration-none text-danger">
+                          <span>Private</span>
+                      </a>
+                  {% endif %}
+              </td>
+              <td>
+                <a href="/articles/article/{{article.id}}/update" class="text-decoration-none text-warning">
+                    Edit
+                </a>
+            </td>
+              <td><a href="/articles/article/{{article.id}}/delete" class="text-decoration-none text-danger">Delete</a></td>
+          </tr>
+          {% endfor %}
+      </tbody>
+      </table>
+  {% else %}
+      <p class="lead">No articles yet.</p>
+  {% endif %}
+
+{% endblock %}

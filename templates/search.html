@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h2 class="page-header">
+  Search: "<em>{{ query }}</em>"
+</h2>
+<hr>
+<div class="row">
+  <div class="col-md-6">
+
+    <!-- Article Titles -->
+
+    <h3>Titles ({{ titles|length }})</h3>
+    <ul>
+      {% if titles|length%}
+        {% for title in titles %}
+        <li><a href="{% url 'article_urls:article_detail' title.id %}">{{ title.title }}</a></li>
+        {% endfor %}
+      {% else %}
+        <li>No titles found</li>
+      {% endif %}
+    </ul>
+
+    <!-- Article Contents -->
+
+    <h3>Article Contents ({{ contents|length }})</h3>
+    <ul>
+      {% if contents|length %}
+        {% for content in contents %}
+        <li><a href={% url 'article_urls:article_detail' content.id %}>{{ content.content|truncatechars:100 }}</a></li>
+        {% endfor %}
+      {% else %}
+      <li>No contents found</li>
+      {% endif %}
+    </ul>
+
+  </div>
+  <div class="col-md-6">
+
+    <!-- Users -->
+
+    <h3>Users ({{ users|length }})</h3>
+    <ul>
+      {% if users|length %}  
+        {% for user in users %}
+        <li>
+          <a href="/user/{{ user.id }}">
+            {{ user.username }}
+          </a>
+        </li>
+        {% endfor %}
+      {% else %}
+        <li>No users found</li>
+      {% endif %}
+    </ul>
+
+    <!-- Comments -->
+
+    <h3>Comments ({{ comments|length }})</h3>
+    <ul>
+      {% if comments|length %}
+        {% for comment in comments %}
+        <li>
+          <a href="{% url 'article_urls:article_detail' comment.id %}">
+            {{ comment.comment_content|truncatechars:100 }}
+          </a>
+        </li>
+        {% endfor %} 
+      {% else %}
+        <li>No comments found</li>
+      {% endif %}
+    </ul>
+  </div>
+</div>
+
+{% endblock %}
