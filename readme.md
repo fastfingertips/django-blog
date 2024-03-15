@@ -1,4 +1,8 @@
-﻿[Requirements](requirements.txt): `pip install -r requirements.txt`
+## Django Blog App
+
+https://github.com/fastfingertips/django-blog/assets/46646991/aa5d7f9a-635e-4afa-9a1a-4248a716edd8
+
+[Requirements](requirements.txt): `pip install -r requirements.txt`
 
 ### Install Django and Create Project
 - [Download Django](https://www.djangoproject.com/download/)
