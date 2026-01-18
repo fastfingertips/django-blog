@@ -26,23 +26,23 @@
     </header>
 
     <div class="w-100 mt-4" style="max-width: 600px;">
-        <h3 class="h5 text-uppercase tracking-widest border-bottom pb-2 mb-4 text-center">User Statistics</h3>
+        <h3 class="h5 text-lowercase tracking-widest border-bottom pb-2 mb-4 text-center">User Statistics</h3>
         <div class="row text-center g-4">
             <div class="col-6 col-md-3">
                 <div class="h3 fw-bold mb-0">{{ articles|length|default:"0" }}</div>
-                <div class="small text-secondary text-uppercase tracking-widest">Articles</div>
+                <div class="small text-secondary text-lowercase tracking-widest">Articles</div>
             </div>
             <div class="col-6 col-md-3">
                 <div class="h3 fw-bold mb-0">{{ user.last_login|date:"d M" }}</div>
-                <div class="small text-secondary text-uppercase tracking-widest">Last Activity</div>
+                <div class="small text-secondary text-lowercase tracking-widest">Last Activity</div>
             </div>
             <div class="col-6 col-md-3">
                 <div class="h3 fw-bold mb-0">{% if user.is_staff %}Staff{% else %}Reader{% endif %}</div>
-                <div class="small text-secondary text-uppercase tracking-widest">Role</div>
+                <div class="small text-secondary text-lowercase tracking-widest">Role</div>
             </div>
             <div class="col-6 col-md-3">
                 <a href="{% url 'user_urls:articles' user.username %}"
-                    class="small text-reset text-decoration-none border-bottom tracking-widest text-uppercase">View All
+                    class="small text-reset text-decoration-none border-bottom tracking-widest text-lowercase">View All
                     Posts</a>
             </div>
         </div>

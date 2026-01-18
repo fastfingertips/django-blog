@@ -5,7 +5,7 @@
 <div class="reading-container mx-auto">
   <header class="text-center mb-5">
     <h1 class="display-3 fw-bold mb-3">{{ article.title }}</h1>
-    <div class="text-secondary small text-uppercase tracking-widest">
+    <div class="text-secondary small text-lowercase tracking-widest">
       Published {{ article.created_at|date:"F d, Y" }} by
       <a href="{% url 'user_urls:profile' article.author.username %}" class="text-reset">@{{ article.author.username }}</a>
     </div>

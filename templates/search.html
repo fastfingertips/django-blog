@@ -10,21 +10,21 @@
   <div class="w-100" style="max-width: 600px;">
     <!-- Articles -->
     <section class="mb-5">
-      <h3 class="h5 text-uppercase tracking-widest border-bottom pb-2 mb-4">Articles ({{ titles|length|add:contents|length }})</h3>
+      <h3 class="h5 text-lowercase tracking-widest border-bottom pb-2 mb-4">Articles ({{ titles|length|add:contents|length }})</h3>
       {% if titles or contents %}
       <ul class="list-unstyled">
         {% for title in titles %}
         <li class="mb-3">
           <a href="{% url 'article_urls:article_detail' title.id %}"
             class="text-reset text-decoration-none fw-bold link-dim d-block">{{ title.title }}</a>
-          <small class="text-secondary text-uppercase tracking-widest">Title Match</small>
+          <small class="text-secondary text-lowercase tracking-widest">Title Match</small>
         </li>
         {% endfor %}
         {% for content in contents %}
         <li class="mb-3">
           <a href="{% url 'article_urls:article_detail' content.id %}"
             class="text-reset text-decoration-none link-dim d-block">{{ content.content|striptags|truncatechars:100 }}</a>
-          <small class="text-secondary text-uppercase tracking-widest">Content Match</small>
+          <small class="text-secondary text-lowercase tracking-widest">Content Match</small>
         </li>
         {% endfor %}
       </ul>
@@ -35,7 +35,7 @@
 
     <!-- Users -->
     <section class="mb-5">
-      <h3 class="h5 text-uppercase tracking-widest border-bottom pb-2 mb-4">Users ({{ users|length }})</h3>
+      <h3 class="h5 text-lowercase tracking-widest border-bottom pb-2 mb-4">Users ({{ users|length }})</h3>
       {% if users %}
       <div class="d-flex flex-wrap justify-content-center gap-3">
         {% for user in users %}
@@ -49,7 +49,7 @@
 
     <!-- Comments -->
     <section class="mb-5">
-      <h3 class="h5 text-uppercase tracking-widest border-bottom pb-2 mb-4">Comments ({{ comments|length }})</h3>
+      <h3 class="h5 text-lowercase tracking-widest border-bottom pb-2 mb-4">Comments ({{ comments|length }})</h3>
       {% if comments %}
       <ul class="list-unstyled">
         {% for comment in comments %}
