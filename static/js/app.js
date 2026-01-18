@@ -22,6 +22,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const cancelReplyBtn = document.querySelector('#cancel-reply');
 
     if (commentInput) {
+        // Use event delegation for reply buttons too if they are dynamically added, 
+        // but for now static list or page reload is fine. 
+        // We'll keep existing logic for reply buttons but ensure it's safe.
         replyButtons.forEach(btn => {
             btn.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -29,11 +32,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 const commentId = this.getAttribute('data-comment-id');
 
                 // Set parent ID
-                parentIdInput.value = commentId;
+                if (parentIdInput) parentIdInput.value = commentId;
 
                 // Show replying UI
-                replyUsernameSpan.textContent = `@${username}`;
-                replyingToLabel.classList.remove('d-none');
+                if (replyUsernameSpan) replyUsernameSpan.textContent = `@${username}`;
+                if (replyingToLabel) replyingToLabel.classList.remove('d-none');
 
                 // Focus input
                 commentInput.focus();
@@ -47,57 +50,38 @@ document.addEventListener("DOMContentLoaded", function () {
         if (cancelReplyBtn) {
             cancelReplyBtn.addEventListener('click', function () {
                 // Clear state
-                parentIdInput.value = '';
-                replyingToLabel.classList.add('d-none');
+                if (parentIdInput) parentIdInput.value = '';
+                if (replyingToLabel) replyingToLabel.classList.add('d-none');
                 commentInput.value = '';
                 commentInput.placeholder = 'leave a note...';
             });
         }
     }
 
-    // Toggle Replies Logic
-    const toggleButtons = document.querySelectorAll('.toggle-replies-btn');
-    toggleButtons.forEach(btn => {
-        btn.addEventListener('click', function () {
-            const targetId = this.getAttribute('data-bs-target');
-            const targetElement = document.querySelector(targetId);
-
-            if (targetElement.classList.contains('d-none')) {
-                // Show
-                targetElement.classList.remove('d-none');
-                this.innerHTML = '&#x25B2; hide replies';
-            } else {
-                // Hide
-                targetElement.classList.add('d-none');
-                const count = this.getAttribute('data-count') || '';
-                // We'll need to store count if we want to restore it perfectly or just generic
-                // For simplicity, let's just restore original text logic or simpler
-                // A smarter way is to grab the original text but let's stick to simple for now. 
-                // Let's improve the button to store count.
-                const countInitial = this.innerHTML.replace('▼ show ', '').replace(' replies', '').trim();
-                // Actually easier: just toggle text
-                if (this.innerHTML.includes('show')) {
-                    // logic handled above
-                } else {
-                    // logic handled above
-                }
-            }
-        });
-    });
-
-    // Better Toggle Logic
+    // Toggle Replies Logic (Cleaned & Robust)
     document.body.addEventListener('click', function (e) {
-        if (e.target.classList.contains('toggle-replies-btn')) {
-            const btn = e.target;
-            const targetId = btn.getAttribute('data-bs-target');
+        // Handle click on the button or any of its children
+        const btn = e.target.closest('.toggle-replies-btn');
+
+        if (btn) {
+            e.preventDefault(); // Prevent default if it's a link or form submit
+            const targetId = btn.getAttribute('data-bs-target'); // Keeping data-bs-target as matches template
             const targetElement = document.querySelector(targetId);
 
-            if (targetElement.classList.contains('d-none')) {
-                targetElement.classList.remove('d-none');
-                btn.innerHTML = btn.innerHTML.replace('▼', '▲').replace('show', 'hide');
+            if (targetElement) {
+                if (targetElement.classList.contains('d-none')) {
+                    // Show
+                    targetElement.classList.remove('d-none');
+                    // Change text: ▼ show -> ▲ hide
+                    btn.innerHTML = btn.innerHTML.replace('▼', '▲').replace('show', 'hide');
+                } else {
+                    // Hide
+                    targetElement.classList.add('d-none');
+                    // Change text: ▲ hide -> ▼ show
+                    btn.innerHTML = btn.innerHTML.replace('▲', '▼').replace('hide', 'show');
+                }
             } else {
-                targetElement.classList.add('d-none');
-                btn.innerHTML = btn.innerHTML.replace('▲', '▼').replace('hide', 'show');
+                console.warn('Target element not found:', targetId);
             }
         }
     });
