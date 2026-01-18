@@ -23,6 +23,8 @@ body {
     font-family: var(--font-sans);
     line-height: 1.6;
     letter-spacing: -0.01em;
+    text-transform: lowercase;
+    /* Enforce lowercase design rule */
 }
 
 .container {
@@ -64,13 +66,14 @@ h6 {
     font-weight: 800;
     font-size: 1.5rem;
     color: var(--text-primary) !important;
+    text-transform: lowercase;
 }
 
 .nav-link {
     color: var(--text-secondary) !important;
     font-weight: 500;
     font-size: 0.9rem;
-    text-transform: uppercase;
+    text-transform: lowercase !important;
     letter-spacing: 0.1em;
     transition: color 0.2s;
 }
@@ -114,7 +117,7 @@ h6 {
     border-radius: 0 !important;
     padding: 0.75rem 2rem;
     font-weight: 700;
-    text-transform: uppercase;
+    text-transform: lowercase !important;
     letter-spacing: 0.1em;
     transition: all 0.2s ease-in-out;
 }
@@ -133,6 +136,7 @@ h6 {
     color: var(--text-primary) !important;
     border: 1px solid var(--text-primary) !important;
     background-color: transparent !important;
+    text-transform: lowercase !important;
 }
 
 .btn-outline-secondary:hover {
@@ -185,12 +189,18 @@ img {
     background-color: var(--bg-color) !important;
     color: var(--text-primary) !important;
     border: 1px solid var(--text-primary) !important;
-    text-transform: uppercase;
+    text-transform: lowercase;
+    /* Enforce lowercase */
     font-size: 0.8rem;
     letter-spacing: 0.1em;
     padding: 1rem;
     margin-bottom: 2rem;
     text-align: center;
+    max-width: var(--max-width);
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    /* Ensure it doesn't touch edges on small screens */
 }
 
 .alert-success,
