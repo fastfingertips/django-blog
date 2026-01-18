@@ -41,8 +41,7 @@
     {% for comment in comments %}
     <div class="comment-item mb-4 pb-4 border-bottom border-light opacity-75 text-center">
       <div class="small text-secondary mb-1">
-        <a href="{% url 'user_urls:profile' comment.comment_author.username %}" class="text-reset fw-bold">@{{
-          comment.comment_author.username }}</a>
+        <a href="{% url 'user_urls:profile' comment.comment_author.username %}" class="text-reset fw-bold">@{{ comment.comment_author.username }}</a>
         &bull; {{ comment.comment_date|timesince }} ago
       </div>
       <div class="text-primary-emphasis">{{ comment.comment_content }}</div>
