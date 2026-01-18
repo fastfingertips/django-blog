@@ -23,8 +23,35 @@ body {
     font-family: var(--font-sans);
     line-height: 1.6;
     letter-spacing: -0.01em;
-    text-transform: lowercase;
-    /* Enforce lowercase design rule */
+    text-transform: lowercase !important;
+    /* Force lowercase globally */
+}
+
+/* Aggressive lowercase enforcement */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+div,
+a,
+li,
+button,
+input,
+textarea,
+label,
+small,
+.lead,
+.display-1,
+.display-2,
+.display-3,
+.display-4,
+.display-5,
+.display-6 {
+    text-transform: lowercase !important;
 }
 
 .container {
