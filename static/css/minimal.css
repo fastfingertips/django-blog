@@ -153,6 +153,8 @@ h6 {
     background-color: var(--text-primary) !important;
     color: var(--bg-color) !important;
     border-color: var(--text-primary) !important;
+    opacity: 1;
+    /* Ensure no transparency on hover */
 }
 
 .btn-outline-secondary,
@@ -165,13 +167,15 @@ h6 {
     text-transform: lowercase !important;
     font-size: 0.9rem;
     padding: 0.4rem 1.2rem;
+    transition: all 0.2s ease-in-out;
 }
 
 .btn-outline-secondary:hover,
 .btn-secondary:hover,
 .btn:hover {
+    background-color: var(--text-primary) !important;
     border-color: var(--text-primary) !important;
-    color: var(--text-primary) !important;
+    color: var(--bg-color) !important;
 }
 
 /* Tags/Badges */
