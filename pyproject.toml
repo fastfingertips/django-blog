@@ -1,0 +1,21 @@
+[project]
+name = "django-blog"
+version = "0.1.0"
+description = "A modern Django blog application with Class-Based Views and Custom User Model"
+authors = [
+    { name = "fastfingertips", email = "fastfingertips@gmail.com" }
+]
+readme = "readme.md"
+requires-python = ">=3.11"
+dependencies = [
+    "Django>=5.0",
+    "django-crispy-forms>=2.1",
+    "crispy-bootstrap5>=0.7",
+    "django-ckeditor>=6.7.0",
+    "django-cleanup>=8.0.0",
+    "python-dotenv>=1.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
