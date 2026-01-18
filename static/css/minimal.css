@@ -6,6 +6,11 @@
     --max-width: 720px;
     --font-serif: "Georgia", "Times New Roman", serif;
     --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+    /* Centralized Design Tokens */
+    --radius: 0;
+    --transition-base: all 0.2s ease-in-out;
+    --tracking-wide: 0.1em;
 }
 
 [data-bs-theme="dark"] {
@@ -99,8 +104,8 @@ h6 {
     font-weight: 500;
     font-size: 0.9rem;
     text-transform: lowercase !important;
-    letter-spacing: 0.1em;
-    transition: color 0.2s;
+    letter-spacing: var(--tracking-wide);
+    transition: var(--transition-base);
 }
 
 .nav-link:hover {
@@ -112,7 +117,7 @@ h6 {
     background: transparent !important;
     border: none !important;
     border-bottom: 1px solid var(--border-color) !important;
-    border-radius: 0 !important;
+    border-radius: var(--radius) !important;
     margin-bottom: 2rem;
     padding-bottom: 2rem;
     text-align: center;
@@ -135,16 +140,17 @@ h6 {
     color: var(--text-secondary);
 }
 
+/* Buttons */
 .btn-primary {
     background-color: transparent !important;
     border: 1px solid var(--text-primary) !important;
     color: var(--text-primary) !important;
-    border-radius: 0 !important;
+    border-radius: var(--radius) !important;
     padding: 0.5rem 1.5rem;
     font-weight: 600;
     text-transform: lowercase !important;
-    letter-spacing: 0.1em;
-    transition: all 0.2s ease-in-out;
+    letter-spacing: var(--tracking-wide);
+    transition: var(--transition-base);
 }
 
 .btn-primary:hover {
@@ -152,20 +158,19 @@ h6 {
     color: var(--bg-color) !important;
     border-color: var(--text-primary) !important;
     opacity: 1;
-    /* Ensure no transparency on hover */
 }
 
 .btn-outline-secondary,
 .btn-secondary,
 .btn {
-    border-radius: 0 !important;
+    border-radius: var(--radius) !important;
     color: var(--text-secondary) !important;
     border: 1px solid var(--border-color) !important;
     background-color: transparent !important;
     text-transform: lowercase !important;
     font-size: 0.9rem;
     padding: 0.4rem 1.2rem;
-    transition: all 0.2s ease-in-out;
+    transition: var(--transition-base);
 }
 
 .btn-outline-secondary:hover,
@@ -178,8 +183,7 @@ h6 {
 
 /* Tags/Badges */
 .badge {
-    border-radius: 0 !important;
-    /* Sharp corners */
+    border-radius: var(--radius) !important;
     font-weight: 400;
     background-color: transparent !important;
     color: var(--text-secondary) !important;
@@ -192,8 +196,7 @@ h6 {
 .form-control,
 .form-select,
 textarea {
-    border-radius: 0 !important;
-    /* Sharp corners */
+    border-radius: var(--radius) !important;
     background-color: transparent !important;
     border: none;
     border-bottom: 1px solid var(--border-color);
@@ -210,21 +213,18 @@ textarea {
 
 /* Images and Media */
 img {
-    border-radius: 0 !important;
-    /* Sharp corners for profile pics and post images */
+    border-radius: var(--radius) !important;
 }
 
 /* Alerts and Messages */
-/* Alerts and Messages */
 .alert {
-    border-radius: 0 !important;
+    border-radius: var(--radius) !important;
     background-color: var(--bg-color) !important;
     color: var(--text-primary) !important;
     border: 1px solid var(--text-primary) !important;
     text-transform: lowercase;
-    /* Enforce lowercase */
     font-size: 0.8rem;
-    letter-spacing: 0.1em;
+    letter-spacing: var(--tracking-wide);
     padding: 1rem;
     margin-bottom: 2rem;
     text-align: center;
@@ -232,7 +232,6 @@ img {
     margin-left: auto;
     margin-right: auto;
     width: 90%;
-    /* Ensure it doesn't touch edges on small screens */
 }
 
 .alert-success,
@@ -256,5 +255,4 @@ img {
 /* Hide images if requested but keeping them subtle for now */
 .card-img-top {
     display: none;
-    /* Text based means no images in list */
 }
