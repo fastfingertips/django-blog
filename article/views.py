@@ -1,128 +1,127 @@
-from django.shortcuts import (
-  render,
-  redirect,
-  get_object_or_404
-)
+from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
-
+from django.urls import reverse_lazy, reverse
+from django.views.generic import (
+    TemplateView, 
+    ListView, 
+    DetailView, 
+    CreateView, 
+    UpdateView, 
+    DeleteView,
+    View
+)
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Article, Comment
 from .forms import ArticleForm
-from django.contrib.auth.decorators import login_required
 
-# Create your views here.
-def index(request):
-  return render(request, 'index.html')
+class IndexView(TemplateView):
+    template_name = 'index.html'
 
-def about(request):
-  return render(request, 'about.html')
+class AboutView(TemplateView):
+    template_name = 'about.html'
 
-def articles(request):
-  # descending: -created_at, ascending: created_at
-  articles = Article.objects.all().order_by('-created_at')
+class ArticleListView(ListView):
+    model = Article
+    template_name = 'articles.html'
+    context_object_name = 'articles'
+    ordering = ['-created_at']
 
-  visible_articles = articles.filter(visibility=True).all()
+    def get_queryset(self):
+        return Article.objects.filter(visibility=True).order_by('-created_at')
 
-  context = {
-    'articles': visible_articles
-  }
-  return render(request, 'articles.html', context)
+class ArticleDetailView(DetailView):
+    model = Article
+    template_name = 'article/article_detail.html'
+    context_object_name = 'article'
+    pk_url_kwarg = 'id'
 
-def detail(request, id):
-  referer = request.META.get('HTTP_REFERER') # get the previous page url
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = self.object.comments.all()
+        return context
 
-  try:
-    # try to get the article with the given id
-    article = Article.objects.get(id=id)
-  except Article.DoesNotExist:
-    # if not found, show an error message and redirect
-    messages.error(request, f'Article not found with id {id}')
-    return redirect(referer or 'index')
-  
-  if not article.visibility:
-    if not request.user.is_authenticated or request.user != article.author:
-      messages.error(request, 'Article is not visible')
-      return redirect(referer or 'index')
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if not self.object.visibility:
+            if not request.user.is_authenticated or request.user != self.object.author:
+                messages.error(request, 'Article is not visible')
+                return redirect('article_urls:articles')
+        return super().get(request, *args, **kwargs)
 
-  context = {
-    'article': article,
-    'comments': article.comments.all() # related_name
-    }
+class ArticleCreateView(LoginRequiredMixin, CreateView):
+    model = Article
+    form_class = ArticleForm
+    template_name = 'article/article_add.html'
+    success_url = reverse_lazy('index')
+    login_url = 'login'
 
-  return render(request, 'article/article_detail.html', context)
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        messages.success(self.request, 'Article has been added')
+        return super().form_valid(form)
 
-@login_required(login_url='login')
-def add(request):
-  form = ArticleForm(
-    request.POST or None,
-    request.FILES or None
-    )
+class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Article
+    form_class = ArticleForm
+    template_name = 'article/article_update.html'
+    pk_url_kwarg = 'id'
+    login_url = 'login'
 
-  if form.is_valid():
-    # commit=False means don't save to database yet
-    article = form.save(commit=False)
-    # set the author to the current user
-    article.author = request.user
-    article.save()
-    messages.success(request, 'Article has been added')
-    return redirect('index')
+    def test_func(self):
+        article = self.get_object()
+        return self.request.user == article.author
 
-  return render(request, 'article/article_add.html', {'form': form})
+    def get_success_url(self):
+        return reverse('article_urls:article_detail', kwargs={'id': self.object.id})
 
-@login_required(login_url='login')
-def delete(request, id):
-  article = get_object_or_404(Article, id=id)
-  article.delete()
-  messages.success(
-    request,
-    'Article has been deleted')
+    def form_valid(self, form):
+        messages.success(self.request, 'Article has been updated')
+        return super().form_valid(form)
 
-  referer = request.META.get('HTTP_REFERER')
-  return redirect(referer or 'index')
+class ArticleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Article
+    pk_url_kwarg = 'id'
+    success_url = reverse_lazy('index')
+    login_url = 'login'
 
-@login_required(login_url='login')
-def update(request, id):
-  article = get_object_or_404(Article, id=id)
+    def test_func(self):
+        article = self.get_object()
+        return self.request.user == article.author
 
-  form = ArticleForm(
-    request.POST or None,
-    request.FILES or None,
-    instance=article
-  )
-  
-  if form.is_valid():
-    # commit=False means don't save to database yet
-    article = form.save(commit=False)
-    article.author = request.user
-    article.save()
-    messages.success(request, 'Article has been updated')
-    return redirect('article_urls:article_detail', id=id)
-  
-  return render(request, 'article/article_update.html', {'form': form})
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Article has been deleted')
+        return super().delete(request, *args, **kwargs)
 
-@login_required(login_url='login')
-def article_visibility(request, id):
-  article = get_object_or_404(Article, id=id)
-  article.visibility = not article.visibility
-  article.save()
-  messages.success(
-    request,
-    f'Article visibility has been changed to {article.visibility}'
-  )
+    # We allow GET to delete if you want, but standard DeleteView expects POST.
+    # The original FBV allowed direct navigation to delete URL.
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
 
-  referer = request.META.get('HTTP_REFERER')
-  return redirect(referer or 'index')
+class ArticleVisibilityToggleView(LoginRequiredMixin, UserPassesTestMixin, View):
+    login_url = 'login'
 
-def comment(request, id):
-  article = get_object_or_404(Article, id=id)
+    def test_func(self):
+        article = get_object_or_404(Article, id=self.kwargs['id'])
+        return self.request.user == article.author
 
-  if request.method == 'POST':
-    content = request.POST.get('comment_content')
+    def get(self, request, *args, **kwargs):
+        article = get_object_or_404(Article, id=self.kwargs['id'])
+        article.visibility = not article.visibility
+        article.save()
+        messages.success(request, f'Article visibility has been changed to {article.visibility}')
+        return redirect(request.META.get('HTTP_REFERER', 'index'))
 
-    new_comment = Comment(
-      article=article,
-      comment_author=request.user,
-      comment_content=content
-    )
-    new_comment.save()
-    messages.success(request, 'Comment has been added')
-  return redirect('article_urls:article_detail', id=id)
+class CommentCreateView(LoginRequiredMixin, View):
+    login_url = 'login'
+
+    def post(self, request, id):
+        article = get_object_or_404(Article, id=id)
+        content = request.POST.get('comment_content')
+        if content:
+            Comment.objects.create(
+                article=article,
+                comment_author=request.user,
+                comment_content=content
+            )
+            messages.success(request, 'Comment has been added')
+        return redirect('article_urls:article_detail', id=id)

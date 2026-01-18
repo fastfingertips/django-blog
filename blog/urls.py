@@ -27,8 +27,8 @@ urlpatterns = [
     path('settings/', user_views.user_settings, name='settings'),
 
     # paths
-    path('', article_views.index, name='index'),
-    path('about/', article_views.about, name='about'),
+    path('', article_views.IndexView.as_view(), name='index'),
+    path('about/', article_views.AboutView.as_view(), name='about'),
 
     path('register/', user_views.register, name='register'),
     path('login/', user_views.user_login, name='login'),
