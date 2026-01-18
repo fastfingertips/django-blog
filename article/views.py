@@ -48,7 +48,8 @@ class ArticleDetailView(DetailView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context['comments'] = self.object.comments.all()
+        # Fetch only top-level comments, ordered by date
+        context['comments'] = self.object.comments.filter(parent=None).order_by('-comment_date')
         return context
 
     def get(self, request: Any, *args: Any, **kwargs: Any) -> HttpResponse:
@@ -138,8 +139,19 @@ class CommentCreateView(LoginRequiredMixin, View):
     def post(self, request: Any, id: int) -> HttpResponse:
         article = get_object_or_404(Article, id=id)
         content = request.POST.get('comment_content')
+        parent_id = request.POST.get('parent_id')
+        
+        parent_comment = None
+        if parent_id:
+            parent_comment = get_object_or_404(Comment, id=parent_id)
+
         if content:
             user = cast(User, request.user)
-            Comment.objects.create(article=article, comment_author=user, comment_content=content)
+            Comment.objects.create(
+                article=article, 
+                comment_author=user, 
+                comment_content=content,
+                parent=parent_comment
+            )
             messages.success(request, 'Comment has been added')
         return redirect('article_urls:article_detail', id=id)

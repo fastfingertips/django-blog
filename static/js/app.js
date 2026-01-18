@@ -16,30 +16,42 @@ document.addEventListener("DOMContentLoaded", function () {
     // Reply Button Logic
     const replyButtons = document.querySelectorAll('.reply-btn');
     const commentInput = document.querySelector('textarea[name="comment_content"]');
+    const parentIdInput = document.querySelector('#parent_id');
+    const replyingToLabel = document.querySelector('#replying-to');
+    const replyUsernameSpan = document.querySelector('#reply-username');
+    const cancelReplyBtn = document.querySelector('#cancel-reply');
 
     if (commentInput) {
         replyButtons.forEach(btn => {
             btn.addEventListener('click', function (e) {
                 e.preventDefault();
                 const username = this.getAttribute('data-username');
+                const commentId = this.getAttribute('data-comment-id');
+
+                // Set parent ID
+                parentIdInput.value = commentId;
+
+                // Show replying UI
+                replyUsernameSpan.textContent = `@${username}`;
+                replyingToLabel.classList.remove('d-none');
 
                 // Focus input
                 commentInput.focus();
-
-                // Append @username to the current value
-                const mention = `@${username} `;
-
-                // If input is empty, just add mention
-                if (commentInput.value.trim() === "") {
-                    commentInput.value = mention;
-                } else {
-                    // If not empty, append with a newline or space
-                    commentInput.value += `\n${mention}`;
-                }
+                commentInput.placeholder = `Reply to @${username}...`;
 
                 // Scroll smoothly to input
                 commentInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
             });
         });
+
+        if (cancelReplyBtn) {
+            cancelReplyBtn.addEventListener('click', function () {
+                // Clear state
+                parentIdInput.value = '';
+                replyingToLabel.classList.add('d-none');
+                commentInput.value = '';
+                commentInput.placeholder = 'leave a note...';
+            });
+        }
     }
 });

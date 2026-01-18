@@ -31,12 +31,16 @@
     </h3>
 
     {% if user.is_authenticated %}
-    <form action="{% url 'article_urls:comment' article.id %}" method="POST" class="mb-5">
+    <form action="{% url 'article_urls:comment' article.id %}" method="POST" class="mb-5" id="comment-form">
       {% csrf_token %}
+      <input type="hidden" name="parent_id" id="parent_id">
       <textarea name="comment_content" class="form-control w-100 mb-3" placeholder="leave a note..." rows="2"
         style="resize: none;"></textarea>
-      <div class="text-end">
-        <button type="submit" class="btn btn-primary d-inline-block">send</button>
+      <div class="d-flex justify-content-between align-items-center">
+        <small id="replying-to" class="text-secondary d-none">replying to <span id="reply-username"
+            class="fw-bold"></span> <button type="button" class="btn btn-link p-0 text-danger ms-2" id="cancel-reply"
+            style="font-size: 0.8rem; text-decoration: none;">(cancel)</button></small>
+        <button type="submit" class="btn btn-primary d-inline-block ms-auto">send</button>
       </div>
     </form>
     {% endif %}
@@ -44,45 +48,7 @@
     <div class="comment-list text-start">
       {% if comments %}
       {% for comment in comments %}
-      <div class="comment-item mb-4 d-flex gap-3">
-        <!-- Avatar Section -->
-        <div class="flex-shrink-0">
-          <a href="{% url 'user_urls:profile' comment.comment_author.username %}">
-            {% if comment.comment_author.profile_picture %}
-            <img src="{{ comment.comment_author.profile_picture.url }}" alt="@{{ comment.comment_author.username }}"
-              class="img-fluid" style="width: 40px; height: 40px; object-fit: cover;">
-            {% else %}
-            <div class="bg-secondary text-white d-flex align-items-center justify-content-center"
-              style="width: 40px; height: 40px; font-size: 1.2rem;">
-              {{ comment.comment_author.username|slice:":1" }}
-            </div>
-            {% endif %}
-          </a>
-        </div>
-
-        <!-- Content Section -->
-        <div class="flex-grow-1">
-          <!-- Header: Author & Time -->
-          <div class="mb-1 d-flex align-items-baseline gap-2">
-            <a href="{% url 'user_urls:profile' comment.comment_author.username %}"
-              class="text-reset fw-bold small text-decoration-none">@{{ comment.comment_author.username }}</a>
-            <small class="text-secondary" style="font-size: 0.75rem;">{{ comment.comment_date|timesince }} ago</small>
-          </div>
-
-          <!-- Comment Body -->
-          <div class="text-secondary mb-2" style="font-size: 0.95rem; line-height: 1.5;">
-            {{ comment.comment_content }}
-          </div>
-
-          <!-- Action Bar (Minimalist) -->
-          <div class="d-flex gap-3 align-items-center">
-            <button class="btn btn-sm btn-link text-secondary p-0 text-decoration-none reply-btn"
-              data-username="{{ comment.comment_author.username }}" style="font-size: 0.8rem;">reply</button>
-            <!-- Placeholder for future like feature -->
-            <!-- <button class="btn btn-sm btn-link text-secondary p-0 text-decoration-none" style="font-size: 0.8rem;">like</button> -->
-          </div>
-        </div>
-      </div>
+      {% include "article/comment_item.html" %}
       {% endfor %}
       {% else %}
       <p class="text-secondary small italic text-start">silence. be the first to speak.</p>

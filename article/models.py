@@ -30,6 +30,9 @@ class Comment(models.Model):
     )
     comment_content = models.CharField(max_length=200, verbose_name='Comment Content')
     comment_date = models.DateTimeField(db_default=Now(), verbose_name='Comment Date')
+    parent = models.ForeignKey(
+        'self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies', verbose_name='Parent Comment'
+    )
 
     def __str__(self) -> str:
         return f'{self.comment_author} - {self.comment_content}'
