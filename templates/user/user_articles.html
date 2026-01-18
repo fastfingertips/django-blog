@@ -1,59 +1,74 @@
 {% extends "layout.html" %}
 
 {% block body %}
+<div class="text-center-wrapper py-5">
+    <header class="mb-5 text-center">
+        <h1 class="display-4 fw-bold">articles</h1>
+        <p class="text-secondary">managing publications by <span class="text-primary">@{{ user.username }}</span></p>
+    </header>
 
+    <div class="w-100" style="max-width: 800px; margin: 0 auto;">
+        {% if articles %}
+        <div class="list-group list-group-flush mb-5">
+            {% for article in articles %}
+            <div class="list-group-item bg-transparent border-bottom px-0 py-4">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                    <div class="flex-grow-1">
+                        <h2 class="h5 mb-1">
+                            <a href="{% url 'article_urls:article_detail' article.id %}"
+                                class="text-reset fw-bold text-decoration-none link-dim">
+                                {{ article.title }}
+                            </a>
+                        </h2>
+                        <div class="small text-secondary tracking-widest text-lowercase">
+                            {{ article.created_at|date:"M d, Y" }} &bull;
+                            <a href="{% url 'article_urls:article_visibility' article.id %}"
+                                class="text-decoration-none {% if article.visibility %}text-success{% else %}text-danger{% endif %} fw-bold">
+                                {% if article.visibility %}public{% else %}private{% endif %}
+                            </a>
+                        </div>
+                    </div>
 
-  <h1 class="display-4">Your articles</h1>
-  <div class="row mb-4">
-    <div class="col-6 text-right">
-        <a href="/articles/article/add" class="btn btn-success">New article</a>
+                    <div class="d-flex gap-3 align-items-center">
+                        <a href="{% url 'article_urls:article_update' article.id %}"
+                            class="btn btn-sm btn-link text-secondary text-decoration-none p-0">edit</a>
+                        <a href="{% url 'article_urls:article_delete' article.id %}"
+                            class="btn btn-sm btn-link text-danger text-decoration-none p-0">delete</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="py-5 text-center">
+            <p class="lead text-secondary italic">this quiet space awaits its first story.</p>
+        </div>
+        {% endif %}
+
+        {% if request.user == user %}
+        <div class="mt-4 text-center">
+            <a href="{% url 'article_urls:article_add' %}" class="btn btn-primary px-4 rounded-pill">write something
+                new</a>
+        </div>
+        {% endif %}
     </div>
-  </div>
-  <hr class="my-4">
-  <!-- new add -->
+</div>
 
-  {% if articles %}
-  <table class="table table-hover table-borderless">
-      <thead>
-          <tr>
-              <th scope="col">id</th>
-              <th scope="col">title</th>
-              <th scope="col">created date</th>
-              <th scope="col" class="text-center" >visibility</th> 
-              <th scope="col" style="width: 8%"></th>
-              <th scope="col" style="width: 8%"></th>
-            <th scope="col" style="width: 8%"></th>
-          </tr>
-      </thead>
-      <tbody>
-          {% for article in articles %}
-          <tr>
-              <th scope="row">{{ article.id }}</th>
-              <td><a href="/articles/article/{{ article.id }}" class="text-decoration-none text-primary">{{ article.title }}</a></td>
-              <td class="text-muted">{{ article.created_at }}</td>
-              <td class="text-center">
-                  {% if article.visibility %}
-                      <a href="/articles/article/{{ article.id }}/visibility" class="text-decoration-none text-success">
-                          <span>Public</span>
-                      </a>        
-                  {% else %}
-                      <a href="/articles/article/{{ article.id }}/visibility" class="text-decoration-none text-danger">
-                          <span>Private</span>
-                      </a>
-                  {% endif %}
-              </td>
-              <td>
-                <a href="/articles/article/{{ article.id }}/update" class="text-decoration-none text-warning">
-                    Edit
-                </a>
-            </td>
-              <td><a href="/articles/article/{{ article.id }}/delete" class="text-decoration-none text-danger">Delete</a></td>
-          </tr>
-          {% endfor %}
-      </tbody>
-      </table>
-  {% else %}
-      <p class="lead">No articles yet.</p>
-  {% endif %}
+<style>
+    .tracking-widest {
+        letter-spacing: 0.1em;
+    }
 
+    .italic {
+        font-style: italic;
+    }
+
+    .link-dim:hover {
+        opacity: 0.7;
+    }
+
+    .list-group-item {
+        border-color: var(--border-color) !important;
+    }
+</style>
 {% endblock %}

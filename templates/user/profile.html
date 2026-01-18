@@ -11,12 +11,12 @@
         {% else %}
         <div class="mb-4 mx-auto border d-flex align-items-center justify-content-center"
             style="width: 120px; height: 120px; font-size: 3rem; background: var(--border-color);">
-            {{ user.username.0|upper }}
+            {{ user.username.0|lower }}
         </div>
         {% endif %}
 
         <h1 class="display-4 fw-bold mb-2">@{{ user.username }}</h1>
-        <p class="text-secondary italic mb-4">Member since {{ user.date_joined|date:"F Y" }}</p>
+        <p class="text-secondary italic mb-4">member since {{ user.date_joined|date:"F Y" }}</p>
 
         {% if user.bio %}
         <div class="mx-auto lead opacity-75" style="max-width: 500px;">

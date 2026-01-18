@@ -3,14 +3,15 @@
 {% block body %}
 <div class="text-center-wrapper py-5">
   <header class="mb-5">
-    <h1 class="display-4 fw-bold">Search Results</h1>
-    <p class="text-secondary">Filtering for: "<em>{{ query }}</em>"</p>
+    <h1 class="display-4 fw-bold">search results</h1>
+    <p class="text-secondary">filtering for: "<em>{{ query }}</em>"</p>
   </header>
 
   <div class="w-100" style="max-width: 600px;">
     <!-- Articles -->
     <section class="mb-5">
-      <h3 class="h5 text-lowercase tracking-widest border-bottom pb-2 mb-4">Articles ({{ titles|length|add:contents|length }})</h3>
+      <h3 class="h5 text-lowercase tracking-widest border-bottom pb-2 mb-4">Articles ({{
+        titles|length|add:contents|length }})</h3>
       {% if titles or contents %}
       <ul class="list-unstyled">
         {% for title in titles %}
@@ -23,13 +24,14 @@
         {% for content in contents %}
         <li class="mb-3">
           <a href="{% url 'article_urls:article_detail' content.id %}"
-            class="text-reset text-decoration-none link-dim d-block">{{ content.content|striptags|truncatechars:100 }}</a>
+            class="text-reset text-decoration-none link-dim d-block">{{ content.content|striptags|truncatechars:100
+            }}</a>
           <small class="text-secondary text-lowercase tracking-widest">Content Match</small>
         </li>
         {% endfor %}
       </ul>
       {% else %}
-      <p class="text-secondary small italic">No matching articles found.</p>
+      <p class="text-secondary small italic">no matching articles found.</p>
       {% endif %}
     </section>
 
@@ -39,11 +41,12 @@
       {% if users %}
       <div class="d-flex flex-wrap justify-content-center gap-3">
         {% for user in users %}
-        <a href="{% url 'user_urls:profile' user.username %}" class="badge text-decoration-none p-2 px-3">@{{ user.username }}</a>
+        <a href="{% url 'user_urls:profile' user.username %}" class="badge text-decoration-none p-2 px-3">@{{
+          user.username }}</a>
         {% endfor %}
       </div>
       {% else %}
-      <p class="text-secondary small italic">No users found.</p>
+      <p class="text-secondary small italic">no users found.</p>
       {% endif %}
     </section>
 
@@ -61,7 +64,7 @@
         {% endfor %}
       </ul>
       {% else %}
-      <p class="text-secondary small italic">No comments matches your query.</p>
+      <p class="text-secondary small italic">no comments matches your query.</p>
       {% endif %}
   </div>
 </div>
