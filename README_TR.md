@@ -4,9 +4,8 @@
 [English](README.md) | **Türkçe**
 ---
 
-https://github.com/fastfingertips/django-blog/assets/46646991/aa5d7f9a-635e-4afa-9a1a-4248a716edd8
 
-Django 5.1 ile modernize edilmiş; `uv` paket yöneticisi, Class-Based Views ve premium frontend teması içeren kurumsal standartlarda blog uygulaması.
+Django 5.1 ile modernize edilmiş; `uv` paket yöneticisi, Class-Based Views ve minimalist editoryal tasarımı içeren kurumsal standartlarda blog uygulaması.
 
 ## Hızlı Başlangıç
 

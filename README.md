@@ -4,9 +4,8 @@
 **English** | [Türkçe](README_TR.md)
 ---
 
-https://github.com/fastfingertips/django-blog/assets/46646991/aa5d7f9a-635e-4afa-9a1a-4248a716edd8
 
-A modernized, enterprise-grade blog application built with Django 5.1, featuring `uv` package manager, Class-Based Views, and a premium frontend.
+A modernized, enterprise-grade blog application built with Django 5.1, featuring `uv` package manager, Class-Based Views, and a minimalist editorial design.
 
 ## Quick Start
 
