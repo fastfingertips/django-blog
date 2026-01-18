@@ -54,5 +54,5 @@ Hızlı kurulum ve çalıştırma için aşağıdaki betikleri kullanabilirsiniz
 - Class-Based Views: Sürdürülebilir ve modüler yapı.
 - Hot Reload: Kod değişiminde otomatik tarayıcı yenileme.
 - Kalite: Ruff formatlama ve kapsamlı Python tip belirteçleri.
-- Modern UI: Bootstrap 5, glassmorphism ve mikro-etkileşimler.
+- Minimalist UI: Okunaklılık odaklı, keskin hatlara sahip editoryal ve metin tabanlı tasarım.
 

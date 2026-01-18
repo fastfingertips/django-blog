@@ -54,5 +54,5 @@ You can use the following scripts for quick setup and execution:
 - Class-Based Views: Maintainable and modular structure.
 - Hot Reload: Automated browser refresh on code changes.
 - Quality: Ruff formatting and comprehensive Python type hints.
-- Modern UI: Bootstrap 5 with custom glassmorphism and micro-interactions.
+- Minimalist UI: Text-focused, editorial design with sharp edges and high readability.
 
