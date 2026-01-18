@@ -1,0 +1,44 @@
+# Modern Django Blog Uygulaması
+
+---
+[English](README.md) | **Türkçe**
+---
+
+https://github.com/fastfingertips/django-blog/assets/46646991/aa5d7f9a-635e-4afa-9a1a-4248a716edd8
+
+Django 5.1 ile modernize edilmiş; `uv` paket yöneticisi, Class-Based Views ve premium frontend teması içeren kurumsal standartlarda blog uygulaması.
+
+## Hızlı Başlangıç
+
+### 1. Ön Gereksinimler
+- Python 3.11+
+- [uv](https://docs.astral.sh/uv/) (Hızlı Python paket yöneticisi)
+  ```bash
+  pip install uv
+  ```
+
+### 2. Kurulum
+```bash
+uv sync
+```
+
+### 3. Veritabanı ve Admin
+```bash
+uv run python manage.py migrate
+uv run python manage.py createsuperuser
+```
+
+### 4. Çalıştırma
+```bash
+uv run python manage.py runserver
+```
+
+---
+
+## Teknik Özellikler
+- Django 5.1: En güncel kararlı sürüm.
+- Class-Based Views: Sürdürülebilir ve modüler yapı.
+- Hot Reload: Kod değişiminde otomatik tarayıcı yenileme.
+- Kalite: Ruff formatlama ve kapsamlı Python tip belirteçleri.
+- Modern UI: Bootstrap 5, glassmorphism ve mikro-etkileşimler.
+
