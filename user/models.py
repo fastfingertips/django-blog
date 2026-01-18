@@ -11,8 +11,8 @@ class User(AbstractUser):
     objects: models.Manager
 
     class Theme(models.TextChoices):
-        LIGHT = "light", "Light Theme"
-        DARK = "dark", "Dark Theme"
+        LIGHT = 'light', 'Light Theme'
+        DARK = 'dark', 'Dark Theme'
 
     theme_preference = models.CharField(
         max_length=10,

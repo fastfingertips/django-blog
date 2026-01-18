@@ -1,9 +1,9 @@
-from typing import Any, Optional, cast
+from typing import Any, cast
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from article.models import Article, Comment
@@ -59,8 +59,8 @@ def user_login(request: Any) -> HttpResponse:
     return render(request, 'user/login.html', context)
 
 
-def user_profile(request: Any, id: Optional[int] = None, username: Optional[str] = None) -> HttpResponse:
-    user: Optional[User] = None
+def user_profile(request: Any, id: int | None = None, username: str | None = None) -> HttpResponse:
+    user: User | None = None
     if id:
         user = get_object_or_404(User, id=id)
     elif username == 'me':
@@ -82,7 +82,7 @@ def user_articles(request: Any, username: str) -> HttpResponse:
     return render(request, 'user/user_articles.html', context)
 
 
-def search(request: Any, query: Optional[str] = None) -> HttpResponse:
+def search(request: Any, query: str | None = None) -> HttpResponse:
     if query is None:  # not in search/<str:query>
         search_query = request.GET.get('q')  # get search/?q=query
     else:
@@ -112,7 +112,7 @@ def search(request: Any, query: Optional[str] = None) -> HttpResponse:
 
 
 @login_required(login_url='login')
-def user_logout(request: Any) -> HttpResponseRedirect:
+def user_logout(request: Any) -> HttpResponse:
     logout(request)
     messages.success(request, 'Başarıyla çıkış yaptınız.')
     return redirect('index')

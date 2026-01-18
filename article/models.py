@@ -15,7 +15,7 @@ class Article(models.Model):
     content = RichTextField()
     created_at = models.DateTimeField(db_default=Now(), verbose_name='Created At')
     article_image = models.FileField(blank=True, null=True, verbose_name='Article Image')
-    visibility = models.BooleanField(verbose_name='Article Visibility', default=True)
+    visibility = models.BooleanField('Article Visibility', default=True)
 
     def __str__(self) -> str:
         return f'{self.author} - {self.title}'
