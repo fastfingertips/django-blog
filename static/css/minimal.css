@@ -179,11 +179,28 @@ img {
 }
 
 /* Alerts and Messages */
+/* Alerts and Messages */
 .alert {
     border-radius: 0 !important;
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-color);
-    color: var(--text-primary);
+    background-color: var(--bg-color) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--text-primary) !important;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.alert-success,
+.alert-error,
+.alert-warning,
+.alert-info,
+.alert-danger {
+    background-color: var(--bg-color) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--text-primary) !important;
 }
 
 /* Center everything by default */
