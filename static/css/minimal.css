@@ -228,15 +228,17 @@ img {
     padding: 1rem;
     text-align: center;
 
-    /* Fixed positioning to prevent DOM shift */
+    /* Fixed positioning: Bottom Right (Toast style) */
     position: fixed;
-    top: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 2rem;
+    right: 2rem;
+    top: auto;
+    left: auto;
+    transform: none;
     z-index: 1050;
     width: auto;
     min-width: 300px;
-    max-width: 90%;
+    max-width: 400px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
