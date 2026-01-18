@@ -35,6 +35,20 @@ uv run python manage.py runserver
 
 ---
 
+## Scripts
+
+You can use the following scripts for quick setup and execution:
+
+### Windows
+- `setup.bat`: Installs `uv`, syncs dependencies, creates default `.env`, and runs migrations.
+- `run.bat`: Starts the development server.
+
+### Unix/macOS
+- `setup.sh`: Automated setup script.
+- `run.sh`: Rapid execution script.
+
+---
+
 ## Technical Features
 - Django 5.1: Latest stable core.
 - Class-Based Views: Maintainable and modular structure.
