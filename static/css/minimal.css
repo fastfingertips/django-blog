@@ -138,37 +138,40 @@ h6 {
 }
 
 .btn-primary {
-    background-color: var(--accent-color) !important;
-    border-color: var(--accent-color) !important;
-    color: var(--bg-color) !important;
+    background-color: transparent !important;
+    border: 1px solid var(--text-primary) !important;
+    color: var(--text-primary) !important;
     border-radius: 0 !important;
-    padding: 0.75rem 2rem;
-    font-weight: 700;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
     text-transform: lowercase !important;
     letter-spacing: 0.1em;
     transition: all 0.2s ease-in-out;
 }
 
 .btn-primary:hover {
-    background-color: var(--text-secondary) !important;
-    border-color: var(--text-secondary) !important;
+    background-color: var(--text-primary) !important;
     color: var(--bg-color) !important;
-    opacity: 0.9;
+    border-color: var(--text-primary) !important;
 }
 
 .btn-outline-secondary,
 .btn-secondary,
 .btn {
     border-radius: 0 !important;
-    color: var(--text-primary) !important;
-    border: 1px solid var(--text-primary) !important;
+    color: var(--text-secondary) !important;
+    border: 1px solid var(--border-color) !important;
     background-color: transparent !important;
     text-transform: lowercase !important;
+    font-size: 0.9rem;
+    padding: 0.4rem 1.2rem;
 }
 
-.btn-outline-secondary:hover {
-    background-color: var(--text-primary) !important;
-    color: var(--bg-color) !important;
+.btn-outline-secondary:hover,
+.btn-secondary:hover,
+.btn:hover {
+    border-color: var(--text-primary) !important;
+    color: var(--text-primary) !important;
 }
 
 /* Tags/Badges */
