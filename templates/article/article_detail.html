@@ -7,7 +7,8 @@
     <h1 class="display-3 fw-bold mb-3">{{ article.title }}</h1>
     <div class="text-secondary small text-lowercase tracking-widest">
       Published {{ article.created_at|date:"F d, Y" }} by
-      <a href="{% url 'user_urls:profile' article.author.username %}" class="text-reset">@{{ article.author.username }}</a>
+      <a href="{% url 'user_urls:profile' article.author.username %}" class="text-reset">@{{ article.author.username
+        }}</a>
     </div>
   </header>
 
@@ -25,31 +26,39 @@
   <hr class="my-5 opacity-10">
 
   <!-- Comments Section -->
-  <section class="comments-section">
-    <h3 class="mb-4 text-center">Comments</h3>
+  <section class="comments-section mt-5 pt-5">
+    <h3 class="h6 text-uppercase tracking-widest border-bottom pb-3 mb-5 text-start">Discussion ({{ comments.count }})
+    </h3>
 
     {% if user.is_authenticated %}
-    <form action="{% url 'article_urls:comment' article.id %}" method="POST" class="mb-5 text-center">
+    <form action="{% url 'article_urls:comment' article.id %}" method="POST" class="mb-5">
       {% csrf_token %}
-      <textarea name="comment_content" class="search-input w-100 mb-3" placeholder="Join the discussion..."
-        rows="3"></textarea>
-      <button type="submit" class="btn btn-primary btn-sm">Post Comment</button>
+      <textarea name="comment_content" class="form-control w-100 mb-3" placeholder="leave a note..." rows="2"
+        style="resize: none;"></textarea>
+      <div class="text-end">
+        <button type="submit" class="btn btn-primary d-inline-block">send</button>
+      </div>
     </form>
     {% endif %}
 
-    {% if comments %}
-    {% for comment in comments %}
-    <div class="comment-item mb-4 pb-4 border-bottom border-light opacity-75 text-center">
-      <div class="small text-secondary mb-1">
-        <a href="{% url 'user_urls:profile' comment.comment_author.username %}" class="text-reset fw-bold">@{{ comment.comment_author.username }}</a>
-        &bull; {{ comment.comment_date|timesince }} ago
+    <div class="comment-list text-start">
+      {% if comments %}
+      {% for comment in comments %}
+      <div class="comment-item mb-5">
+        <div class="d-flex justify-content-between align-items-baseline mb-2">
+          <a href="{% url 'user_urls:profile' comment.comment_author.username %}"
+            class="text-reset fw-bold small text-decoration-none">@{{ comment.comment_author.username }}</a>
+          <small class="text-secondary" style="font-size: 0.75rem;">{{ comment.comment_date|timesince }} ago</small>
+        </div>
+        <div class="text-secondary">
+          {{ comment.comment_content }}
+        </div>
       </div>
-      <div class="text-primary-emphasis">{{ comment.comment_content }}</div>
+      {% endfor %}
+      {% else %}
+      <p class="text-secondary small italic text-start">silence. be the first to speak.</p>
+      {% endif %}
     </div>
-    {% endfor %}
-    {% else %}
-    <p class="text-center text-secondary small italic">Silence. No one has spoken yet.</p>
-    {% endif %}
   </section>
 </div>
 
