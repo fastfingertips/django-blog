@@ -1,11 +1,12 @@
 from django.db import models
+from django.conf import settings
 from ckeditor.fields import RichTextField
 
 # Create your models here.
 class Article(models.Model):
   objects: models.Manager # Type hint for IDE
   author = models.ForeignKey(
-    'auth.User',
+    settings.AUTH_USER_MODEL,
     on_delete=models.CASCADE,
     verbose_name='Author'
     ) # if user is deleted, delete the article
@@ -29,10 +30,7 @@ class Article(models.Model):
     verbose_name='Article Image'
     )
 
-  visibility = models.BooleanField(
-    default=True,
-    verbose_name='Article Visibility'
-    )
+  visibility = models.BooleanField('Article Visibility', default=True)
 
   def __str__(self) -> str:
     return f'{self.author} - {self.title}'
@@ -49,7 +47,7 @@ class Comment(models.Model):
     related_name='comments' # to access comments from article object
     )
   comment_author = models.ForeignKey(
-    'auth.User',
+    settings.AUTH_USER_MODEL,
     on_delete=models.CASCADE,
     verbose_name='Comment Author'
   )

@@ -1,12 +1,13 @@
 from django.contrib import messages
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.models import User
+from django.contrib.auth import login, logout, authenticate, get_user_model
 from django.contrib.auth.decorators import login_required
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from article.models import Article, Comment
 
 from .forms import RegisterForm, LoginForm
+
+User = get_user_model()
 
 # Create your views here.
 
@@ -18,14 +19,14 @@ def register(request):
     password = form.cleaned_data.get('password')
 
     # Create user
-    newUser = User(username=username)
-    newUser.set_password(password)
-    newUser.save()
-
+    new_user = User(username=username)
+    new_user.set_password(password)
+    new_user.save()
+    
     # Login user
-    login(request, newUser)
-    messages.success(request, f'Hoşgeldin {newUser.username}')
-
+    login(request, new_user)
+    messages.success(request, f'Hoşgeldin {new_user.username}')
+    
     # Redirect to index page
     return redirect('index')
   context = {'form': form,}
@@ -39,11 +40,6 @@ def user_login(request):
     username = form.cleaned_data.get('username')
     password = form.cleaned_data.get('password')
 
-    # Authenticate user
-    """
-    authenticate: checks the username and password and returns a user 
-    object if they are correct or None if they are not.
-    """
     user = authenticate(username=username, password=password)
 
 
@@ -60,41 +56,20 @@ def user_login(request):
   return render(request, 'user/login.html', context)
 
 def user_profile(request, id=None, username=None):
-  referer = request.META.get('HTTP_REFERER')
-  # request_path = request.path
-  user_exists = True
+  if id:
+    user = get_object_or_404(User, id=id)
+  elif username == 'me':
+    if not request.user.is_authenticated:
+      messages.error(request, 'Bu sayfayı görüntülemek için giriş yapmalısınız.')
+      return redirect('login')
+    user = request.user
+  else:
+    user = get_object_or_404(User, username=username)
 
-  if id is not None:
-    try:
-      user = User.objects.get(id=id)
-    except User.DoesNotExist: user_exists = False
-  elif username is not None:
-    if username == 'me': # logged in user profile
-      if not request.user.is_authenticated:
-        messages.error(request, 'Bu sayfayı görüntülemek için giriş yapmalısınız.')
-        return redirect('login')
-      user = request.user
-    else:
-      try:
-        user = User.objects.get(username=username)
-      except User.DoesNotExist: user_exists = False
-    
-  if not user_exists:
-    messages.error(request, 'Kullanıcı bulunamadı.')
-    if referer is not None:
-      return redirect(referer)
-    return redirect('index')
-
-  context = {'user': user}
-  return render(request, 'user/profile.html', context)
+  return render(request, 'user/profile.html', {'user': user})
 
 def user_articles(request, username):
-  try:
-    user = User.objects.get(username=username)
-  except User.DoesNotExist:
-    messages.error(request, 'Kullanıcı bulunamadı.')
-    return redirect('index')
-
+  user = get_object_or_404(User, username=username)
   articles = Article.objects.filter(author=user)
   context = {'articles': articles, 'user': user}
   return render(request, 'user/user_articles.html', context)
@@ -103,21 +78,9 @@ def search(request, query=None):
   if query is None: # not in search/<str:query>
     query = request.GET.get('q') # get search/?q=query
 
-    """
-    # search/?q=query -> search/query
-    if query is not None: 
-      return redirect(request.path + query)
-    """
-
-  if query is None or len(query) == 0:
-
+  if not query:
     messages.error(request, 'Arama sorgusu boş girildi.')
-    referer = request.META.get('HTTP_REFERER')
-
-    if referer is not None:
-      return redirect(referer)
-
-    return render(request, 'search.html', {'query': query})
+    return redirect(request.META.get('HTTP_REFERER', 'index'))
 
   users = User.objects.filter(username__icontains=query)
   titles = Article.objects.filter(title__icontains=query)
