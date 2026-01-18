@@ -58,10 +58,18 @@
         <div class="list-group list-group-flush mb-4">
           {% for comment in comments %}
           <div class="list-group-item bg-transparent border-bottom px-0 py-3">
-            <div class="mb-1">
-              <span class="text-secondary small italic">on </span>
-              <a href="{% url 'article_urls:article_detail' comment.article.id %}"
-                class="text-reset fw-bold text-decoration-none link-dim">{{ comment.article.title }}</a>
+            <div class="mb-1 d-flex justify-content-between align-items-start">
+              <div>
+                <span class="text-secondary small italic">on </span>
+                <a href="{% url 'article_urls:article_detail' comment.article.id %}"
+                  class="text-reset fw-bold text-decoration-none link-dim">{{ comment.article.title }}</a>
+              </div>
+              <div class="d-flex gap-2">
+                <a href="{% url 'article_urls:comment_edit' comment.id %}"
+                  class="small text-secondary text-decoration-none">Edit</a>
+                <a href="{% url 'article_urls:comment_delete' comment.id %}"
+                  class="small text-danger text-decoration-none">Delete</a>
+              </div>
             </div>
             <div class="small text-primary-emphasis opacity-75 mb-1">"{{ comment.comment_content|truncatechars:60 }}"
             </div>
