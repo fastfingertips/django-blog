@@ -3,6 +3,7 @@ django-crispy-forms
 crispy-bootstrap5
 django-ckeditor
 django-cleanup
+python-dotenv
 
 # Package             Version
 # ------------------- -------
