@@ -28,7 +28,7 @@ def register(request: Any) -> HttpResponse:
 
         # Login user
         login(request, new_user)
-        messages.success(request, f'Hoşgeldin {new_user.username}')
+        messages.success(request, f'Welcome {new_user.username}')
 
         # Redirect to index page
         return redirect('index')
@@ -47,12 +47,12 @@ def user_login(request: Any) -> HttpResponse:
         user = authenticate(username=username, password=password)
 
         if user is None:  # If user is not authenticated
-            messages.error(request, 'Kullanıcı adı veya parola hatalı!')
+            messages.error(request, 'Invalid username or password!')
             return render(request, 'user/login.html', context)
 
         # Login user
         login(request, user)
-        messages.success(request, f'Hoşgeldin {user.username}')
+        messages.success(request, f'Welcome {user.username}')
         return redirect('index')  # Redirect to index page
 
     # If form is not valid
@@ -66,7 +66,7 @@ def user_profile(request: Any, id: int | None = None, username: str | None = Non
     elif username == 'me':
         temp_user = cast(User, request.user)
         if not temp_user.is_authenticated:
-            messages.error(request, 'Bu sayfayı görüntülemek için giriş yapmalısınız.')
+            messages.error(request, 'You must log in to view this page.')
             return redirect('login')
         user = temp_user
     else:
@@ -90,7 +90,7 @@ def search(request: Any, query: str | None = None) -> HttpResponse:
         search_query = query
 
     if not search_query or not isinstance(search_query, str):
-        messages.error(request, 'Arama sorgusu boş girildi.')
+        messages.error(request, 'Search query cannot be empty.')
         return redirect(request.META.get('HTTP_REFERER', 'index'))
 
     users = User.objects.filter(username__icontains=search_query)
@@ -115,7 +115,7 @@ def search(request: Any, query: str | None = None) -> HttpResponse:
 @login_required(login_url='login')
 def user_logout(request: Any) -> HttpResponse:
     logout(request)
-    messages.success(request, 'Başarıyla çıkış yaptınız.')
+    messages.success(request, 'Successfully logged out.')
     return redirect('index')
 
 
