@@ -10,8 +10,7 @@
   <div class="w-100" style="max-width: 600px;">
     <!-- Articles -->
     <section class="mb-5">
-      <h3 class="h5 text-uppercase tracking-widest border-bottom pb-2 mb-4">Articles ({{
-        titles|length|add:contents|length }})</h3>
+      <h3 class="h5 text-uppercase tracking-widest border-bottom pb-2 mb-4">Articles ({{ titles|length|add:contents|length }})</h3>
       {% if titles or contents %}
       <ul class="list-unstyled">
         {% for title in titles %}
@@ -24,8 +23,7 @@
         {% for content in contents %}
         <li class="mb-3">
           <a href="{% url 'article_urls:article_detail' content.id %}"
-            class="text-reset text-decoration-none link-dim d-block">{{ content.content|striptags|truncatechars:100
-            }}</a>
+            class="text-reset text-decoration-none link-dim d-block">{{ content.content|striptags|truncatechars:100 }}</a>
           <small class="text-secondary text-uppercase tracking-widest">Content Match</small>
         </li>
         {% endfor %}
@@ -41,8 +39,7 @@
       {% if users %}
       <div class="d-flex flex-wrap justify-content-center gap-3">
         {% for user in users %}
-        <a href="{% url 'user_urls:profile' user.username %}" class="badge text-decoration-none p-2 px-3">@{{
-          user.username }}</a>
+        <a href="{% url 'user_urls:profile' user.username %}" class="badge text-decoration-none p-2 px-3">@{{ user.username }}</a>
         {% endfor %}
       </div>
       {% else %}
