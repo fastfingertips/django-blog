@@ -34,6 +34,7 @@ class ArticleListView(ListView):
     template_name: str = 'articles.html'
     context_object_name: str = 'articles'
     ordering: list[str] = ['-created_at']
+    paginate_by = 5
 
     def get_queryset(self) -> Any:
         return Article.objects.filter(visibility=True).order_by('-created_at')
