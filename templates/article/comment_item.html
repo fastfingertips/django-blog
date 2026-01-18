@@ -32,9 +32,28 @@
         <!-- Action Bar (Minimalist) -->
         <div class="d-flex gap-3 align-items-center">
             <button class="btn btn-sm btn-link text-secondary p-0 text-decoration-none reply-btn"
-                data-username="{{ comment.comment_author.username }}" data-comment-id="{{ comment.id }}"
-                style="font-size: 0.8rem;">reply</button>
+                data-target="#reply-form-{{ comment.id }}" style="font-size: 0.8rem;">reply</button>
         </div>
+
+        <!-- Inline Reply Form (Hidden by default) -->
+        {% if user.is_authenticated %}
+        <div id="reply-form-{{ comment.id }}" class="mt-3 d-none">
+            <form action="{% url 'article_urls:comment' article.id %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                <div class="d-flex gap-2">
+                    <textarea name="comment_content" class="form-control" rows="1" placeholder="Add a reply..."
+                        style="resize: none; font-size: 0.9rem;"></textarea>
+                </div>
+                <div class="text-end mt-2">
+                    <button type="button"
+                        class="btn btn-link btn-sm text-secondary text-decoration-none me-2 cancel-inline-reply-btn"
+                        data-target="#reply-form-{{ comment.id }}">cancel</button>
+                    <button type="submit" class="btn btn-primary btn-sm rounded-pill px-3">reply</button>
+                </div>
+            </form>
+        </div>
+        {% endif %}
 
         <!-- Nested Replies -->
         {% if comment.replies.count > 0 %}
