@@ -11,7 +11,8 @@
     <div class="row g-5">
       <!-- Articles Column -->
       <div class="col-md-6">
-        <h3 class="h5 text-lowercase tracking-widest border-bottom pb-2 mb-4">Your Articles ({{ articles|length }})</h3>
+        <h3 class="h5 text-lowercase tracking-widest border-bottom pb-2 mb-4">Recent Articles ({{ total_articles }})
+        </h3>
         {% if articles %}
         <div class="list-group list-group-flush">
           {% for article in articles %}
@@ -37,7 +38,8 @@
 
       <!-- Comments Column -->
       <div class="col-md-6">
-        <h3 class="h5 text-lowercase tracking-widest border-bottom pb-2 mb-4">Your Comments ({{ comments|length }})</h3>
+        <h3 class="h5 text-lowercase tracking-widest border-bottom pb-2 mb-4">Recent Comments ({{ total_comments }})
+        </h3>
         {% if comments %}
         <div class="list-group list-group-flush">
           {% for comment in comments %}

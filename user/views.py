@@ -124,14 +124,16 @@ def dashboard(request: Any) -> HttpResponse:
     logged_user = cast(User, request.user)
     user_is_superuser = logged_user.is_superuser
 
-    articles = Article.objects.filter(author=logged_user)
-    comments = Comment.objects.filter(comment_author=logged_user)
+    articles_qs = Article.objects.filter(author=logged_user).order_by('-created_at')
+    comments_qs = Comment.objects.filter(comment_author=logged_user).order_by('-comment_date')
 
     context = {
         'user': logged_user,
         'user_is_superuser': user_is_superuser,
-        'articles': articles,
-        'comments': comments,
+        'articles': articles_qs[:5],
+        'comments': comments_qs[:5],
+        'total_articles': articles_qs.count(),
+        'total_comments': comments_qs.count(),
     }
 
     return render(request, 'dashboard.html', context)
