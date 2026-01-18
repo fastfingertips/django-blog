@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="reading-container mx-auto py-5">
+    <header class="text-center mb-5">
+        <h1 class="h3 fw-bold">Edit Comment</h1>
+        <p class="text-secondary small">refined your thoughts.</p>
+    </header>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-4">
+            <textarea name="comment_content" class="form-control" rows="4"
+                style="resize: none; border: none; background: transparent; border-bottom: 1px solid var(--border-color); border-radius: 0; padding-left: 0; font-size: 1.1rem;">{{ object.comment_content }}</textarea>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <a href="{% url 'article_urls:article_detail' object.article.id %}"
+                class="text-secondary small text-decoration-none">cancel</a>
+            <button type="submit" class="btn btn-primary rounded-pill px-4">save changes</button>
+        </div>
+    </form>
+</div>
+
+<style>
+    .reading-container {
+        max-width: 600px;
+    }
+</style>
+{% endblock %}

@@ -156,3 +156,39 @@ class CommentCreateView(LoginRequiredMixin, View):
             )
             messages.success(request, 'Comment has been added')
         return redirect('article_urls:article_detail', id=id)
+
+
+class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Comment
+    fields = ['comment_content']
+    template_name = 'article/comment_update.html'
+
+    def test_func(self) -> bool:
+        comment = self.get_object()
+        return self.request.user == comment.comment_author
+
+    def get_success_url(self) -> str:
+        return reverse('article_urls:article_detail', kwargs={'id': self.object.article.id})
+
+    def form_valid(self, form: Any) -> HttpResponse:
+        messages.success(self.request, 'Comment has been updated')
+        return super().form_valid(form)
+
+
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Comment
+
+    def test_func(self) -> bool:
+        comment = self.get_object()
+        # Author of comment or Author of article can delete
+        return self.request.user == comment.comment_author or self.request.user == comment.article.author
+
+    def get_success_url(self) -> str:
+        return reverse('article_urls:article_detail', kwargs={'id': self.object.article.id})
+
+    def delete(self, request: Any, *args: Any, **kwargs: Any) -> HttpResponse:
+        messages.success(self.request, 'Comment has been deleted')
+        return super().delete(request, *args, **kwargs)
+
+    def get(self, request: Any, *args: Any, **kwargs: Any) -> HttpResponse:
+        return self.delete(request, *args, **kwargs)

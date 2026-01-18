@@ -12,4 +12,6 @@ urlpatterns = [
     path('article/<int:id>/visibility/', views.ArticleVisibilityToggleView.as_view(), name='article_visibility'),
     path('article/<int:id>/delete/', views.ArticleDeleteView.as_view(), name='article_delete'),
     path('article/<int:id>/update/', views.ArticleUpdateView.as_view(), name='article_update'),
+    path('comment/<int:pk>/edit/', views.CommentUpdateView.as_view(), name='comment_edit'),
+    path('comment/<int:pk>/delete/', views.CommentDeleteView.as_view(), name='comment_delete'),
 ]

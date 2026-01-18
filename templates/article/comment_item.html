@@ -33,6 +33,18 @@
         <div class="d-flex gap-3 align-items-center">
             <button class="btn btn-sm btn-link text-secondary p-0 text-decoration-none reply-btn"
                 data-target="#reply-form-{{ comment.id }}" style="font-size: 0.8rem;">reply</button>
+
+            {% if user.is_authenticated %}
+            {% if user == comment.comment_author %}
+            <a href="{% url 'article_urls:comment_edit' comment.id %}" class="small text-secondary text-decoration-none"
+                style="font-size: 0.8rem;">edit</a>
+            {% endif %}
+
+            {% if user == comment.comment_author or user == article.author %}
+            <a href="{% url 'article_urls:comment_delete' comment.id %}" class="small text-danger text-decoration-none"
+                style="font-size: 0.8rem;">delete</a>
+            {% endif %}
+            {% endif %}
         </div>
 
         <!-- Inline Reply Form (Hidden by default) -->
