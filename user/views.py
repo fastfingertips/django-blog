@@ -1,127 +1,141 @@
-from django.contrib import messages
-from django.contrib.auth import login, logout, authenticate, get_user_model
-from django.contrib.auth.decorators import login_required
+from typing import Any, Optional, cast
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
+
 from article.models import Article, Comment
 
-from .forms import RegisterForm, LoginForm
-
-User = get_user_model()
+from .forms import LoginForm, RegisterForm
+from .models import User
 
 # Create your views here.
 
+
 # not auth
-def register(request):
-  form = RegisterForm(request.POST or None)
-  if form.is_valid():
-    username = form.cleaned_data.get('username')
-    password = form.cleaned_data.get('password')
+def register(request: Any) -> HttpResponse:
+    form = RegisterForm(request.POST or None)
+    if form.is_valid():
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
 
-    # Create user
-    new_user = User(username=username)
-    new_user.set_password(password)
-    new_user.save()
-    
-    # Login user
-    login(request, new_user)
-    messages.success(request, f'Hoşgeldin {new_user.username}')
-    
-    # Redirect to index page
-    return redirect('index')
-  context = {'form': form,}
-  return render(request, 'user/register.html', context)
+        # Create user
+        new_user = User(username=username)
+        new_user.set_password(password)
+        new_user.save()
 
-def user_login(request):
-  form = LoginForm(request.POST or None)
-  context = {'form': form,}
- 
-  if form.is_valid():
-    username = form.cleaned_data.get('username')
-    password = form.cleaned_data.get('password')
+        # Login user
+        login(request, new_user)
+        messages.success(request, f'Hoşgeldin {new_user.username}')
 
-    user = authenticate(username=username, password=password)
+        # Redirect to index page
+        return redirect('index')
+    context = {'form': form}
+    return render(request, 'user/register.html', context)
 
 
-    if user is None: # If user is not authenticated
-      messages.error(request, 'Kullanıcı adı veya parola hatalı!')
-      return render(request, 'user/login.html', context) 
-    
-    # Login user
-    login(request, user)
-    messages.success(request, f'Hoşgeldin {user.username}')
-    return redirect('index') # Redirect to index page
+def user_login(request: Any) -> HttpResponse:
+    form = LoginForm(request.POST or None)
+    context = {'form': form}
 
-  # If form is not valid
-  return render(request, 'user/login.html', context)
+    if form.is_valid():
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
 
-def user_profile(request, id=None, username=None):
-  if id:
-    user = get_object_or_404(User, id=id)
-  elif username == 'me':
-    if not request.user.is_authenticated:
-      messages.error(request, 'Bu sayfayı görüntülemek için giriş yapmalısınız.')
-      return redirect('login')
-    user = request.user
-  else:
+        user = authenticate(username=username, password=password)
+
+        if user is None:  # If user is not authenticated
+            messages.error(request, 'Kullanıcı adı veya parola hatalı!')
+            return render(request, 'user/login.html', context)
+
+        # Login user
+        login(request, user)
+        messages.success(request, f'Hoşgeldin {user.username}')
+        return redirect('index')  # Redirect to index page
+
+    # If form is not valid
+    return render(request, 'user/login.html', context)
+
+
+def user_profile(request: Any, id: Optional[int] = None, username: Optional[str] = None) -> HttpResponse:
+    user: Optional[User] = None
+    if id:
+        user = get_object_or_404(User, id=id)
+    elif username == 'me':
+        temp_user = cast(User, request.user)
+        if not temp_user.is_authenticated:
+            messages.error(request, 'Bu sayfayı görüntülemek için giriş yapmalısınız.')
+            return redirect('login')
+        user = temp_user
+    else:
+        user = get_object_or_404(User, username=username)
+
+    return render(request, 'user/profile.html', {'user': user})
+
+
+def user_articles(request: Any, username: str) -> HttpResponse:
     user = get_object_or_404(User, username=username)
+    articles = Article.objects.filter(author=user)
+    context = {'articles': articles, 'user': user}
+    return render(request, 'user/user_articles.html', context)
 
-  return render(request, 'user/profile.html', {'user': user})
 
-def user_articles(request, username):
-  user = get_object_or_404(User, username=username)
-  articles = Article.objects.filter(author=user)
-  context = {'articles': articles, 'user': user}
-  return render(request, 'user/user_articles.html', context)
+def search(request: Any, query: Optional[str] = None) -> HttpResponse:
+    if query is None:  # not in search/<str:query>
+        search_query = request.GET.get('q')  # get search/?q=query
+    else:
+        search_query = query
 
-def search(request, query=None):
-  if query is None: # not in search/<str:query>
-    query = request.GET.get('q') # get search/?q=query
+    if not search_query or not isinstance(search_query, str):
+        messages.error(request, 'Arama sorgusu boş girildi.')
+        return redirect(request.META.get('HTTP_REFERER', 'index'))
 
-  if not query:
-    messages.error(request, 'Arama sorgusu boş girildi.')
-    return redirect(request.META.get('HTTP_REFERER', 'index'))
+    users = User.objects.filter(username__icontains=search_query)
+    titles = Article.objects.filter(title__icontains=search_query)
+    contents = Article.objects.filter(content__icontains=search_query)
+    comments = Comment.objects.filter(comment_content__icontains=search_query)
 
-  users = User.objects.filter(username__icontains=query)
-  titles = Article.objects.filter(title__icontains=query)
-  contents = Article.objects.filter(content__icontains=query)
-  comments = Comment.objects.filter(comment_content__icontains=query)
+    context = {
+        'query': search_query,
+        'users': users,
+        'titles': titles,
+        'contents': contents,
+        'comments': comments,
+    }
 
-  context = {
-    'query': query,
-    'users': users,
-    'titles': titles,
-    'contents': contents,
-    'comments': comments 
-  }
+    return render(request, 'search.html', context)
 
-  return render(request, 'search.html', context)
 
 # auth
 
-@login_required(login_url='login')
-def user_logout(request):
-  logout(request)
-  messages.success(request, 'Başarıyla çıkış yaptınız.')
-  return redirect('index')
 
 @login_required(login_url='login')
-def dashboard(request):
-    logned_user = request.user
-    user_is_superuser = logned_user.is_superuser
+def user_logout(request: Any) -> HttpResponseRedirect:
+    logout(request)
+    messages.success(request, 'Başarıyla çıkış yaptınız.')
+    return redirect('index')
 
-    articles = Article.objects.filter(author=logned_user)
-    comments = Comment.objects.filter(comment_author=logned_user)
+
+@login_required(login_url='login')
+def dashboard(request: Any) -> HttpResponse:
+    logged_user = cast(User, request.user)
+    user_is_superuser = logged_user.is_superuser
+
+    articles = Article.objects.filter(author=logged_user)
+    comments = Comment.objects.filter(comment_author=logged_user)
 
     context = {
-      'user': logned_user,
-      'user_is_superuser': user_is_superuser,
-      'articles': articles,
-      'comments': comments
+        'user': logged_user,
+        'user_is_superuser': user_is_superuser,
+        'articles': articles,
+        'comments': comments,
     }
 
     return render(request, 'dashboard.html', context)
 
+
 @login_required(login_url='login')
-def user_settings(request):
-  return render(request, 'user/user_settings.html')
+def user_settings(request: Any) -> HttpResponse:
+    return render(request, 'user/user_settings.html')

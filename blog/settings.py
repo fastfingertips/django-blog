@@ -9,8 +9,10 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 # Load .env file
@@ -66,11 +68,11 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug', # for debug
-                'django.template.context_processors.request', # for request
-                'django.contrib.auth.context_processors.auth', # for user
-                'django.contrib.messages.context_processors.messages', # for    messages
-                'django.template.context_processors.media', # for media files
+                'django.template.context_processors.debug',  # for debug
+                'django.template.context_processors.request',  # for request
+                'django.contrib.auth.context_processors.auth',  # for user
+                'django.contrib.messages.context_processors.messages',  # for    messages
+                'django.template.context_processors.media',  # for media files
             ],
         },
     },
@@ -134,14 +136,14 @@ CKEDITOR_CONFIGS = {
 }
 
 # Crispy forms
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static') ]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Media files
 MEDIA_URL = '/media/'
