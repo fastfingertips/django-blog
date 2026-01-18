@@ -15,6 +15,7 @@ dependencies = [
     "django-cleanup>=8.0.0",
     "python-dotenv>=1.0.0",
     "pillow>=12.1.0",
+    "django-browser-reload>=1.21.0",
 ]
 
 [dependency-groups]
