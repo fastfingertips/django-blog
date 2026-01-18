@@ -1,0 +1,201 @@
+:root {
+    --bg-color: #ffffff;
+    --text-primary: #111111;
+    --text-secondary: #666666;
+    --accent-color: #000000;
+    --border-color: #eeeeee;
+    --max-width: 720px;
+    --font-serif: "Georgia", "Times New Roman", serif;
+    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+[data-bs-theme="dark"] {
+    --bg-color: #0d0d0d;
+    --text-primary: #f0f0f0;
+    --text-secondary: #999999;
+    --accent-color: #ffffff;
+    --border-color: #222222;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+}
+
+.container {
+    max-width: var(--max-width) !important;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
+
+.lead {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+/* Minimalist Navbar */
+.navbar {
+    background-color: var(--bg-color) !important;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.5rem 0;
+}
+
+.navbar-brand {
+    font-family: var(--font-serif);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--text-primary) !important;
+}
+
+.nav-link {
+    color: var(--text-secondary) !important;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: color 0.2s;
+}
+
+.nav-link:hover {
+    color: var(--text-primary) !important;
+}
+
+/* Post Cards (as simple list) */
+.card {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    border-radius: 0 !important;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    text-align: center;
+}
+
+.card-title {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-text {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.card-footer {
+    background: transparent !important;
+    border: none !important;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.btn-primary {
+    background-color: var(--accent-color) !important;
+    border-color: var(--accent-color) !important;
+    color: var(--bg-color) !important;
+    border-radius: 0 !important;
+    padding: 0.75rem 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: var(--text-secondary) !important;
+    border-color: var(--text-secondary) !important;
+    color: var(--bg-color) !important;
+    opacity: 0.9;
+}
+
+.btn-outline-secondary,
+.btn-secondary,
+.btn {
+    border-radius: 0 !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--text-primary) !important;
+    background-color: transparent !important;
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--text-primary) !important;
+    color: var(--bg-color) !important;
+}
+
+/* Tags/Badges */
+.badge {
+    border-radius: 0 !important;
+    /* Sharp corners */
+    font-weight: 400;
+    background-color: transparent !important;
+    color: var(--text-secondary) !important;
+    border: 1px solid var(--border-color);
+    padding: 0.4em 0.8em;
+}
+
+/* Form Elements */
+.search-input,
+.form-control,
+.form-select,
+textarea {
+    border-radius: 0 !important;
+    /* Sharp corners */
+    background-color: transparent !important;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.5rem 0.5rem;
+    color: var(--text-primary) !important;
+}
+
+.search-input:focus,
+.form-control:focus {
+    box-shadow: none !important;
+    border-bottom-color: var(--text-primary);
+    background-color: transparent !important;
+}
+
+/* Images and Media */
+img {
+    border-radius: 0 !important;
+    /* Sharp corners for profile pics and post images */
+}
+
+/* Alerts and Messages */
+.alert {
+    border-radius: 0 !important;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+}
+
+/* Center everything by default */
+.text-center-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Hide images if requested but keeping them subtle for now */
+.card-img-top {
+    display: none;
+    /* Text based means no images in list */
+}

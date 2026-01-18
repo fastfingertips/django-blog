@@ -72,7 +72,8 @@ def user_profile(request: Any, id: int | None = None, username: str | None = Non
     else:
         user = get_object_or_404(User, username=username)
 
-    return render(request, 'user/profile.html', {'user': user})
+    articles = Article.objects.filter(author=user)
+    return render(request, 'user/profile.html', {'user': user, 'articles': articles})
 
 
 def user_articles(request: Any, username: str) -> HttpResponse:

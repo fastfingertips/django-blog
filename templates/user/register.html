@@ -2,21 +2,46 @@
 {% load crispy_forms_tags %}
 
 {% block body %}
-    <!-- Register Form -->
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="lead">Register</div>
-            <!-- Login form -->
-            <hr>
-            <!-- Login form -->
-            <form  method="post">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <button type="submit" class="btn btn-secondary">
+<div class="text-center-wrapper py-5">
+    <div style="max-width: 400px; width: 100%;">
+        <h1 class="display-5 fw-bold mb-4">Register</h1>
+        <p class="text-secondary mb-5">Join our community of thinkers and writers.</p>
+
+        <form method="post" class="text-start">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="mt-4 text-center">
+                <button type="submit" class="btn btn-primary w-100">
                     Create Account
                 </button>
-            </form>
+            </div>
+        </form>
+
+        <div class="mt-4 text-center">
+            <small class="text-secondary tracking-widest text-uppercase">
+                Already have an account? <a href="{% url 'login' %}" class="text-reset border-bottom">Sign In</a>
+            </small>
         </div>
     </div>
-    <!-- End Register Form -->
+</div>
+
+<style>
+    .tracking-widest {
+        letter-spacing: 0.1em;
+    }
+
+    .form-control {
+        border-radius: 0 !important;
+        border: 1px solid var(--border-color) !important;
+        padding: 0.75rem !important;
+    }
+
+    .form-label {
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-secondary);
+    }
+</style>
 {% endblock %}
