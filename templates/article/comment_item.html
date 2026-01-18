@@ -70,7 +70,7 @@
         <!-- Nested Replies -->
         {% if comment.replies.count > 0 %}
         <div class="mt-2">
-            <button class="btn btn-sm btn-link text-primary p-0 text-decoration-none fw-bold toggle-replies-btn"
+            <button class="btn btn-sm btn-link text-secondary p-0 text-decoration-none fw-bold toggle-replies-btn"
                 data-bs-target="#replies-{{ comment.id }}" style="font-size: 0.8rem;">
                 &#x25BC; show {{ comment.replies.count }} replies
             </button>
