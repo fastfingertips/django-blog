@@ -108,8 +108,12 @@ h6 {
     transition: var(--transition-base);
 }
 
-.nav-link:hover {
+.nav-link:hover,
+.nav-link.active {
     color: var(--text-primary) !important;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
 }
 
 /* Post Cards (as simple list) */
