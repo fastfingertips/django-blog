@@ -3,6 +3,7 @@ from ckeditor.fields import RichTextField
 
 # Create your models here.
 class Article(models.Model):
+  objects: models.Manager # Type hint for IDE
   author = models.ForeignKey(
     'auth.User',
     on_delete=models.CASCADE,
@@ -33,23 +34,25 @@ class Article(models.Model):
     verbose_name='Article Visibility'
     )
 
-  def __str__(self):
+  def __str__(self) -> str:
     return f'{self.author} - {self.title}'
   
   class Meta:
     ordering = ['-created_at'] # order by created_at descending
   
 class Comment(models.Model):
+  objects: models.Manager # Type hint for IDE
   article = models.ForeignKey(
     Article,
     on_delete=models.CASCADE,
     verbose_name='Article',
     related_name='comments' # to access comments from article object
     )
-  comment_author = models.CharField(
+  comment_author = models.ForeignKey(
     'auth.User',
-    max_length=50,
-    )
+    on_delete=models.CASCADE,
+    verbose_name='Comment Author'
+  )
   comment_content = models.CharField(
     max_length=200,
     verbose_name='Comment'
@@ -59,8 +62,8 @@ class Comment(models.Model):
     verbose_name='Comment Date'
     )
   
-  def __str__(self):
-    return self.comment_content
+  def __str__(self) -> str:
+    return str(self.comment_content)
   
   class Meta:
     ordering = ['-comment_date'] # order by created_at descending
