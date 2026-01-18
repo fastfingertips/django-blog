@@ -11,10 +11,9 @@
     <div class="row g-5">
       <!-- Articles Column -->
       <div class="col-md-6">
-        <h3 class="h5 text-lowercase tracking-widest border-bottom pb-2 mb-4">Recent Articles ({{ total_articles }})
-        </h3>
+        <h3 class="h5 text-lowercase tracking-widest border-bottom pb-2 mb-4">Articles ({{ total_articles }})</h3>
         {% if articles %}
-        <div class="list-group list-group-flush">
+        <div class="list-group list-group-flush mb-4">
           {% for article in articles %}
           <div class="list-group-item bg-transparent border-bottom px-0 py-3">
             <div class="d-flex justify-content-between align-items-start mb-1">
@@ -31,6 +30,22 @@
           </div>
           {% endfor %}
         </div>
+
+        <!-- Article Pagination -->
+        {% if articles.paginator.num_pages > 1 %}
+        <nav class="d-flex justify-content-center gap-3 small mb-5">
+          {% if articles.has_previous %}
+          <a href="?page_a={{ articles.previous_page_number }}&page_c={{ comments.number }}"
+            class="text-reset text-decoration-none opacity-50 link-dim">&larr; newer</a>
+          {% endif %}
+          <span class="opacity-25">{{ articles.number }} / {{ articles.paginator.num_pages }}</span>
+          {% if articles.has_next %}
+          <a href="?page_a={{ articles.next_page_number }}&page_c={{ comments.number }}"
+            class="text-reset text-decoration-none opacity-50 link-dim">older &rarr;</a>
+          {% endif %}
+        </nav>
+        {% endif %}
+
         {% else %}
         <p class="text-secondary small italic">You haven't written any articles yet.</p>
         {% endif %}
@@ -38,10 +53,9 @@
 
       <!-- Comments Column -->
       <div class="col-md-6">
-        <h3 class="h5 text-lowercase tracking-widest border-bottom pb-2 mb-4">Recent Comments ({{ total_comments }})
-        </h3>
+        <h3 class="h5 text-lowercase tracking-widest border-bottom pb-2 mb-4">Comments ({{ total_comments }})</h3>
         {% if comments %}
-        <div class="list-group list-group-flush">
+        <div class="list-group list-group-flush mb-4">
           {% for comment in comments %}
           <div class="list-group-item bg-transparent border-bottom px-0 py-3">
             <div class="mb-1">
@@ -55,6 +69,22 @@
           </div>
           {% endfor %}
         </div>
+
+        <!-- Comment Pagination -->
+        {% if comments.paginator.num_pages > 1 %}
+        <nav class="d-flex justify-content-center gap-3 small mb-5">
+          {% if comments.has_previous %}
+          <a href="?page_c={{ comments.previous_page_number }}&page_a={{ articles.number }}"
+            class="text-reset text-decoration-none opacity-50 link-dim">&larr; newer</a>
+          {% endif %}
+          <span class="opacity-25">{{ comments.number }} / {{ comments.paginator.num_pages }}</span>
+          {% if comments.has_next %}
+          <a href="?page_c={{ comments.next_page_number }}&page_a={{ articles.number }}"
+            class="text-reset text-decoration-none opacity-50 link-dim">older &rarr;</a>
+          {% endif %}
+        </nav>
+        {% endif %}
+
         {% else %}
         <p class="text-secondary small italic">You haven't made any comments yet.</p>
         {% endif %}

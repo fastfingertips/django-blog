@@ -119,6 +119,8 @@ def user_logout(request: Any) -> HttpResponse:
     return redirect('index')
 
 
+from django.core.paginator import Paginator
+
 @login_required(login_url='login')
 def dashboard(request: Any) -> HttpResponse:
     logged_user = cast(User, request.user)
@@ -127,11 +129,21 @@ def dashboard(request: Any) -> HttpResponse:
     articles_qs = Article.objects.filter(author=logged_user).order_by('-created_at')
     comments_qs = Comment.objects.filter(comment_author=logged_user).order_by('-comment_date')
 
+    # Pagination for articles
+    article_paginator = Paginator(articles_qs, 5)
+    article_page_num = request.GET.get('page_a')
+    articles = article_paginator.get_page(article_page_num)
+
+    # Pagination for comments
+    comment_paginator = Paginator(comments_qs, 5)
+    comment_page_num = request.GET.get('page_c')
+    comments = comment_paginator.get_page(comment_page_num)
+
     context = {
         'user': logged_user,
         'user_is_superuser': user_is_superuser,
-        'articles': articles_qs[:5],
-        'comments': comments_qs[:5],
+        'articles': articles,
+        'comments': comments,
         'total_articles': articles_qs.count(),
         'total_comments': comments_qs.count(),
     }
