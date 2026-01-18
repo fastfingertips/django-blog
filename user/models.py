@@ -10,8 +10,14 @@ class User(AbstractUser):
 
     objects: models.Manager
 
+    class Theme(models.TextChoices):
+        LIGHT = "light", "Light Theme"
+        DARK = "dark", "Dark Theme"
+
     theme_preference = models.CharField(
-        max_length=10, choices=[('light', 'Light Theme'), ('dark', 'Dark Theme')], default='light'
+        max_length=10,
+        choices=Theme.choices,
+        default=Theme.LIGHT,
     )
     bio = models.TextField(max_length=500, blank=True)
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
