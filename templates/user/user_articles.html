@@ -28,26 +28,26 @@
       <tbody>
           {% for article in articles %}
           <tr>
-              <th scope="row">{{article.id}}</th>
-              <td><a href="/articles/article/{{article.id}}" class="text-decoration-none text-primary">{{article.title}}</a></td>
-              <td class="text-muted">{{article.created_at}}</td>
+              <th scope="row">{{ article.id }}</th>
+              <td><a href="/articles/article/{{ article.id }}" class="text-decoration-none text-primary">{{ article.title }}</a></td>
+              <td class="text-muted">{{ article.created_at }}</td>
               <td class="text-center">
                   {% if article.visibility %}
-                      <a href="/articles/article/{{article.id}}/visibility" class="text-decoration-none text-success">
+                      <a href="/articles/article/{{ article.id }}/visibility" class="text-decoration-none text-success">
                           <span>Public</span>
                       </a>        
                   {% else %}
-                      <a href="/articles/article/{{article.id}}/visibility" class="text-decoration-none text-danger">
+                      <a href="/articles/article/{{ article.id }}/visibility" class="text-decoration-none text-danger">
                           <span>Private</span>
                       </a>
                   {% endif %}
               </td>
               <td>
-                <a href="/articles/article/{{article.id}}/update" class="text-decoration-none text-warning">
+                <a href="/articles/article/{{ article.id }}/update" class="text-decoration-none text-warning">
                     Edit
                 </a>
             </td>
-              <td><a href="/articles/article/{{article.id}}/delete" class="text-decoration-none text-danger">Delete</a></td>
+              <td><a href="/articles/article/{{ article.id }}/delete" class="text-decoration-none text-danger">Delete</a></td>
           </tr>
           {% endfor %}
       </tbody>
