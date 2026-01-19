@@ -4,7 +4,7 @@
 [English](README.md) | **Türkçe**
 ---
 
-![the minimal blog](https://github.com/user-attachments/assets/96a953c6-6b86-45f1-8c08-9c20d4b063ba)
+<img src="https://github.com/user-attachments/assets/96a953c6-6b86-45f1-8c08-9c20d4b063ba" width="800" alt="the minimal blog">
 
 django 5.1 ile inşa edilmiş; `uv` paket yöneticisi ve sınıf tabanlı görünümler (cbv) kullanan, radikal şekilde minimalist ve editoryal odaklı bir blog uygulaması. "highlighter" estetiği ile sadece içeriğe ve sadeliğe odaklanır.
 
