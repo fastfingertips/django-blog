@@ -2,30 +2,57 @@
 
 {% block body %}
 <div class="text-center-wrapper py-5">
-    <h1 class="display-1 mb-4">The Minimal Blog</h1>
-    <p class="lead mb-5">
-        Exploring ideas through simple words. No distractions, just content.
-    </p>
+    <!-- Hero Section -->
+    <header class="mb-5 pb-5">
+        <h1 class="display-1 article-title mb-4" style="font-weight: 700; font-size: 5rem;">the minimal blog</h1>
+        <p class="lead text-secondary opacity-75" style="max-width: 500px; margin: 0 auto;">
+            exploring thoughts through simple words. <br>
+            no distractions, strictly content.
+        </p>
+    </header>
 
-    <div class="mt-4">
-        <a href="{% url 'article_urls:articles' %}" class="btn btn-primary">Read the Archive</a>
+    <!-- Latest Articles Preview -->
+    <div class="w-100 mt-5 pt-5" style="max-width: 650px;">
+        <h3 class="h6 text-lowercase tracking-widest border-bottom pb-2 mb-4 opacity-50">latest entries</h3>
+
+        {% if latest_articles %}
+        <div class="article-list text-start">
+            {% for article in latest_articles %}
+            <div class="mb-5">
+                <div class="small text-secondary tracking-widest text-none opacity-50 mb-1">
+                    {{ article.created_at|date:"M d, Y" }}
+                </div>
+                <h2 class="h3 mb-2">
+                    <a href="{% url 'article_urls:article_detail' article.id %}"
+                        class="text-reset text-decoration-none article-title fw-bold">
+                        {{ article.title }}
+                    </a>
+                </h2>
+                <p class="text-secondary small mb-3">
+                    {{ article.content|striptags|truncatechars:120 }}
+                </p>
+                <a href="{% url 'article_urls:article_detail' article.id %}" class="link-btn small italic">read more</a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-5 pt-4">
+            <a href="{% url 'article_urls:articles' %}" class="btn btn-primary tracking-widest"
+                style="font-size: 0.8rem;">
+                browse the full archive
+            </a>
+        </div>
+        {% else %}
+        <p class="text-secondary italic">no posts yet. silence reigns.</p>
+        {% endif %}
     </div>
 
-    <div class="mt-5 pt-5 opacity-50">
-        <hr class="w-25 mx-auto">
-        <small class="text-lowercase tracking-widest">Built with Django 5.1</small>
-    </div>
+</div>
 </div>
 
 <style>
     .tracking-widest {
         letter-spacing: 0.2em;
-    }
-
-    h1.display-1 {
-        font-family: var(--font-serif);
-        font-weight: 800;
-        letter-spacing: -0.02em;
     }
 </style>
 {% endblock %}

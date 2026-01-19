@@ -4,16 +4,15 @@
 <!-- Focus on Max Width for Reading -->
 <div class="reading-container mx-auto">
   <header class="text-center mb-5">
-    <h1 class="display-3 fw-bold mb-3">{{ article.title }}</h1>
-    <div class="text-secondary small text-lowercase tracking-widest">
-      Published {{ article.created_at|date:"F d, Y" }} by
-      <a href="{% url 'user_urls:profile' article.author.username %}" class="text-reset">@{{ article.author.username }}</a>
+    <h1 class="display-3 mb-3 article-title">{{ article.title }}</h1>
+    <div class="text-secondary small tracking-widest text-none">
+      Published {{ article.created_at|date:"F d, Y" }} by <a href="{% url 'user_urls:profile' article.author.username %}" class="text-reset">@{{ article.author.username }}</a>
     </div>
   </header>
 
   {% if article.article_image %}
   <div class="mb-5 text-center">
-    <img src="{{ article.article_image.url }}" class="img-fluid shadow-sm"
+    <img src="{{ article.article_image.url }}" class="img-fluid"
       style="max-height: 400px; width: 100%; object-fit: cover;">
   </div>
   {% endif %}
@@ -26,7 +25,7 @@
 
   <!-- Comments Section -->
   <section class="comments-section mt-5 pt-5">
-    <h3 class="h6 text-uppercase tracking-widest border-bottom pb-3 mb-5 text-start">Discussion ({{ comments.count }})
+    <h3 class="h6 text-lowercase tracking-widest border-bottom pb-3 mb-5 text-start">discussion ({{ comments.count }})
     </h3>
 
     {% if user.is_authenticated %}
@@ -36,10 +35,10 @@
       <textarea name="comment_content" class="form-control w-100 mb-3" placeholder="leave a note..." rows="2"
         style="resize: none;"></textarea>
       <div class="d-flex justify-content-between align-items-center">
-        <small id="replying-to" class="text-secondary d-none">replying to <span id="reply-username"
-            class="fw-bold"></span> <button type="button" class="btn btn-link p-0 text-danger ms-2" id="cancel-reply"
-            style="font-size: 0.8rem; text-decoration: none;">(cancel)</button></small>
-        <button type="submit" class="btn btn-primary d-inline-block ms-auto">send</button>
+        <small id="replying-to" class="text-secondary d-none">replying to <span id="reply-username"></span> 
+          <button type="button" class="link-btn text-danger ms-2" id="cancel-reply">cancel</button>
+        </small>
+        <button type="submit" class="btn btn-primary ms-auto">send</button>
       </div>
     </form>
     {% endif %}
@@ -62,7 +61,7 @@
   }
 
   .article-content {
-    font-family: var(--font-sans);
+    font-family: var(--font-serif);
     font-size: 1.15rem;
     color: var(--text-primary);
   }

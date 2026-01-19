@@ -21,8 +21,13 @@ from .forms import ArticleForm
 from .models import Article, Comment
 
 
-class IndexView(TemplateView):
+class IndexView(ListView):
     template_name: str = 'index.html'
+    model = Article
+    context_object_name = 'latest_articles'
+
+    def get_queryset(self):
+        return Article.objects.filter(visibility=True).order_by('-created_at')[:3]
 
 
 class AboutView(TemplateView):

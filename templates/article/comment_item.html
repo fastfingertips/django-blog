@@ -31,18 +31,15 @@
 
         <!-- Action Bar (Minimalist) -->
         <div class="d-flex gap-3 align-items-center">
-            <button class="btn btn-sm btn-link text-secondary p-0 text-decoration-none reply-btn"
-                data-target="#reply-form-{{ comment.id }}" style="font-size: 0.8rem;">reply</button>
+            <button class="reply-btn" data-target="#reply-form-{{ comment.id }}">reply</button>
 
             {% if user.is_authenticated %}
             {% if user == comment.comment_author %}
-            <a href="{% url 'article_urls:comment_edit' comment.id %}" class="small text-secondary text-decoration-none"
-                style="font-size: 0.8rem;">edit</a>
+            <a href="{% url 'article_urls:comment_edit' comment.id %}" class="link-btn">edit</a>
             {% endif %}
 
             {% if user == comment.comment_author or user == article.author %}
-            <a href="{% url 'article_urls:comment_delete' comment.id %}" class="small text-danger text-decoration-none"
-                style="font-size: 0.8rem;">delete</a>
+            <a href="{% url 'article_urls:comment_delete' comment.id %}" class="link-btn text-danger">delete</a>
             {% endif %}
             {% endif %}
         </div>
@@ -58,10 +55,9 @@
                         style="resize: none; font-size: 0.9rem; border: none; background: transparent; border-bottom: 1px solid var(--border-color); border-radius: 0; padding-left: 0;"></textarea>
                 </div>
                 <div class="text-end mt-2">
-                    <button type="button"
-                        class="btn btn-link btn-sm text-secondary text-decoration-none me-2 cancel-inline-reply-btn"
+                    <button type="button" class="link-btn cancel-inline-reply-btn"
                         data-target="#reply-form-{{ comment.id }}">cancel</button>
-                    <button type="submit" class="btn btn-primary btn-sm rounded-pill px-3">reply</button>
+                    <button type="submit" class="btn btn-primary">reply</button>
                 </div>
             </form>
         </div>
@@ -70,8 +66,7 @@
         <!-- Nested Replies -->
         {% if comment.replies.count > 0 %}
         <div class="mt-2">
-            <button class="btn btn-sm btn-link text-secondary p-0 text-decoration-none fw-bold toggle-replies-btn"
-                data-bs-target="#replies-{{ comment.id }}" style="font-size: 0.8rem;">
+            <button class="link-btn toggle-replies-btn" data-bs-target="#replies-{{ comment.id }}">
                 &#x25BC; show {{ comment.replies.count }} replies
             </button>
 

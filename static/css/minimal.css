@@ -1,11 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&display=swap');
+
 :root {
     --bg-color: #ffffff;
     --text-primary: #111111;
     --text-secondary: #666666;
     --border-color: #eeeeee;
     --max-width: 720px;
-    --font-serif: "Georgia", "Times New Roman", serif;
-    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-serif: "Newsreader", "Georgia", serif;
+    --font-sans: "Inter", -apple-system, system-ui, sans-serif;
 
     /* Centralized Design Tokens */
     --radius: 0;
@@ -57,6 +59,10 @@ small,
     text-transform: lowercase !important;
 }
 
+.text-none {
+    text-transform: none !important;
+}
+
 .container {
     max-width: var(--max-width) !important;
     margin: 0 auto;
@@ -87,8 +93,12 @@ h6 {
 /* Minimalist Navbar */
 .navbar {
     background-color: var(--bg-color) !important;
-    border-bottom: 1px solid var(--border-color);
-    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border-color) !important;
+    padding: 1rem 0;
+}
+
+.footer {
+    border-top: 1px solid var(--border-color) !important;
 }
 
 .navbar-brand {
@@ -101,19 +111,20 @@ h6 {
 
 .nav-link {
     color: var(--text-secondary) !important;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 0.9rem;
     text-transform: lowercase !important;
     letter-spacing: var(--tracking-wide);
     transition: var(--transition-base);
+    background-color: transparent;
+    padding: 0 2px !important;
 }
 
 .nav-link:hover,
 .nav-link.active {
-    color: var(--text-primary) !important;
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    text-decoration-thickness: 1px;
+    color: var(--bg-color) !important;
+    background-color: var(--text-primary) !important;
+    text-decoration: none !important;
 }
 
 /* Post Cards (as simple list) */
@@ -144,44 +155,114 @@ h6 {
     color: var(--text-secondary);
 }
 
-/* Buttons */
-.btn-primary {
+/* Unified Text-Highlight Style (Replacement for Buttons) */
+.btn-primary,
+.btn-outline-secondary,
+.btn-secondary,
+.btn,
+.link-btn,
+.reply-btn,
+.tiny-link,
+[class*="text-danger"],
+[class*="text-success"] {
     background-color: transparent !important;
-    border: 1px solid var(--text-primary) !important;
-    color: var(--text-primary) !important;
-    border-radius: var(--radius) !important;
-    padding: 0.5rem 1.5rem;
-    font-weight: 600;
-    text-transform: lowercase !important;
-    letter-spacing: var(--tracking-wide);
+    /* Theme-aware marker */
+    /* Subtle marker */
+    border: none !important;
+    color: var(--text-secondary) !important;
+    padding: 0 !important;
+    /* ZERO padding to match text width exactly */
+    font-size: 0.9em !important;
+    font-weight: 400 !important;
+    text-decoration: none !important;
+    transition: background 0.1s ease;
+    display: inline !important;
+    /* Strictly inline to behave like text */
+    border-radius: 0 !important;
+    line-height: inherit;
+    vertical-align: baseline;
+    font-style: italic;
+    /* Actions like edit, delete, reply are now italic */
+}
+
+/* Ensure Titles/Headings are consistent everywhere */
+.article-title,
+.card-title,
+.display-1,
+.display-2,
+.display-3,
+.display-4,
+.display-5,
+.display-6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-serif) !important;
+}
+
+.link-dim,
+a.text-reset {
+    background-color: transparent !important;
+    padding: 0 !important;
+    text-decoration: none !important;
     transition: var(--transition-base);
 }
 
-.btn-primary:hover {
+[data-bs-theme="dark"] .reply-btn,
+[data-bs-theme="dark"] .tiny-link {
+    background-color: transparent !important;
+    color: var(--text-secondary) !important;
+}
+
+/* Hover State: Uniform Inversion */
+.btn:hover,
+.btn-primary:hover,
+.btn-secondary:hover,
+.btn-outline-secondary:hover,
+.link-btn:hover,
+.reply-btn:hover,
+.tiny-link:hover,
+.link-dim:hover,
+a.text-reset:hover {
     background-color: var(--text-primary) !important;
     color: var(--bg-color) !important;
-    border-color: var(--text-primary) !important;
     opacity: 1;
 }
 
-.btn-outline-secondary,
-.btn-secondary,
-.btn {
-    border-radius: var(--radius) !important;
+/* Strictly Grayscale Indicators (Replacing Colors) */
+.text-danger,
+.text-success {
+    padding: 0 !important;
+    display: inline !important;
+    text-decoration: none !important;
     color: var(--text-secondary) !important;
-    border: 1px solid var(--border-color) !important;
     background-color: transparent !important;
-    text-transform: lowercase !important;
-    font-size: 0.9rem;
-    padding: 0.4rem 1.2rem;
-    transition: var(--transition-base);
+    /* No background by default */
 }
 
-.btn-outline-secondary:hover,
-.btn-secondary:hover,
-.btn:hover {
+.text-danger {
+    font-style: italic;
+    /* Subtle distinction for private/delete without color */
+}
+
+.text-success {
+    font-weight: 400;
+    /* Clean distinction for public/active without color */
+}
+
+[data-bs-theme="dark"] .text-danger,
+[data-bs-theme="dark"] .text-success {
+    background-color: transparent !important;
+    color: var(--text-secondary) !important;
+}
+
+/* Hover State for all highlights: Solid Inversion */
+.text-danger:hover,
+.text-success:hover {
     background-color: var(--text-primary) !important;
-    border-color: var(--text-primary) !important;
     color: var(--bg-color) !important;
 }
 
@@ -199,7 +280,10 @@ h6 {
 .search-input,
 .form-control,
 .form-select,
-textarea {
+textarea,
+button,
+input {
+    font-family: var(--font-sans) !important;
     border-radius: var(--radius) !important;
     background-color: transparent !important;
     border: none;

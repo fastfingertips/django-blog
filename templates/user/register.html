@@ -4,22 +4,22 @@
 {% block body %}
 <div class="text-center-wrapper py-5">
     <div style="max-width: 400px; width: 100%;">
-        <h1 class="display-5 fw-bold mb-4">Register</h1>
-        <p class="text-secondary mb-5">Join our community of thinkers and writers.</p>
+        <h1 class="display-5 mb-4">register</h1>
+        <p class="text-secondary mb-5">join our community of thinkers and writers.</p>
 
         <form method="post" class="text-start">
             {% csrf_token %}
             {{ form|crispy }}
             <div class="mt-4 text-center">
-                <button type="submit" class="btn btn-primary w-100">
-                    Create Account
+                <button type="submit" class="btn btn-primary">
+                    create account
                 </button>
             </div>
         </form>
 
         <div class="mt-4 text-center">
             <small class="text-secondary tracking-widest text-lowercase">
-                Already have an account? <a href="{% url 'login' %}" class="text-reset border-bottom">Sign In</a>
+                already have an account? <a href="{% url 'login' %}" class="link-btn">login</a>
             </small>
         </div>
     </div>
@@ -30,17 +30,25 @@
         letter-spacing: 0.1em;
     }
 
+    /* Override crispy styles for minimalist look */
     .form-control {
         border-radius: 0 !important;
-        border: 1px solid var(--border-color) !important;
-        padding: 0.75rem !important;
+        border: none !important;
+        border-bottom: 1px solid var(--border-color) !important;
+        padding: 0.5rem 0 !important;
+        background: transparent !important;
+    }
+
+    .form-control:focus {
+        box-shadow: none !important;
+        border-bottom-color: var(--text-primary) !important;
     }
 
     .form-label {
-        font-weight: 600;
-        font-size: 0.85rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
+        font-weight: 400;
+        font-size: 0.8rem;
+        text-transform: lowercase;
+        letter-spacing: 0.1em;
         color: var(--text-secondary);
     }
 </style>
