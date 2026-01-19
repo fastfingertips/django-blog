@@ -1,11 +1,12 @@
-# Modern Django Blog App
+# the minimal blog
 
 ---
 **English** | [Türkçe](README_TR.md)
 ---
 
+![the minimal blog](https://github.com/user-attachments/assets/96a953c6-6b86-45f1-8c08-9c20d4b063ba)
 
-A modernized, enterprise-grade blog application built with Django 5.1, featuring `uv` package manager, Class-Based Views, and a minimalist editorial design.
+a strictly minimalist, editorial-grade blog application built with django 5.1. it features the `uv` package manager, class-based views, and a unique "highlighter" design aesthetic focused on silence and content.
 
 ## Quick Start
 
